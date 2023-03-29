@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.CustSession = Session["Email"];
+    ViewBag.Name = Session["Name"];
+}
+@{
+    ViewBag.Title = "MoreInfo";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<!-- meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="keywords" content="arrowthemes, bakery, cafe, ristorante theme, coffee shop, cooking, dining, food, full screen, html template, menu, pizza, responsive, restaurant, template" />
+<meta name="description" content="Gaucho is an exquisite food & restaurant HTML template with a unique concept. Gaucho comes bundled with astounding features like page preloader, pre-built pages, full page slider and much more" />
+<meta name="author" content="arrowthemes">
+<title>Item Information - Signature Restaurant & Green Food</title>
+
+<!-- fav icon -->
+<link href="~/Content/Customer/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+<link rel="apple-touch-icon" href="~/Content/Customer/images/apple-touch-icon.png">
+
+<!-- css -->
+<link rel="stylesheet" href="~/Content/Customer/css/plyr.css">
+<link rel="stylesheet" href="~/Content/Customer/css/theme.css">
+<link rel="stylesheet" href="~/Content/Customer/css/custom.css">
+
+<!-- header-a -->
+<div id="tm-header-a" class="tm-block-header-a uk-block uk-block-default tm-block-fullwidth tm-grid-collapse ">
+    <div class="uk-container uk-container-center">
+        <section class="tm-header-a uk-grid" data-uk-grid-match="{target:'> div > .uk-panel'}">
+
+            <div class="uk-width-1-1">
+                <div class="uk-panel uk-text-center uk-contrast tm-overlay-secondary tm-header-height">
+                    <div class="tm-background-cover uk-cover-background uk-flex uk-flex-center uk-flex-middle" style="background-position: 50% 0px; background-image:url(/Content/Customer/images/background/bg-image-11.jpg)" data-uk-parallax="{bg: '-200'}">
+                        <div class="uk-position-relative uk-container">
+
+
+                            <div data-uk-parallax="{opacity: '1,0', y: '-50'}">
+
+                                <div data-uk-scrollspy="{cls:'uk-animation-slide-top', delay:300}">
+                                    <h1 class="uk-module-title-alt uk-margin-top">More Information</h1>
+                                </div>
+
+                                <div data-uk-scrollspy="{cls:'uk-animation-slide-top', delay:800}">
+                                    <h5 class="uk-sub-title-small">If you can dream it, you can do it</h5>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- main content -->
+<div id="tm-main" class="tm-block-main uk-block uk-block-default">
+    <div class="uk-container uk-container-center">
+        <div class="tm-middle uk-grid" data-uk-grid-match data-uk-grid-margin>
+            <div class="tm-main uk-width-medium-1-1">
+                <main id="tm-content" class="tm-content">
+                    <article class="uk-article tm-article">
+
+
+                        @if (Model != null && Model.Rows != null && Model.Rows.Count > 0)
+                        {
+                            foreach (System.Data.DataRow row in Model.Rows)
+                            {
+                                <div class="tm-article-wrapper">
+                                    <div class="tm-article-content uk-margin-large-bottom uk-margin-top-remove">
+                                        <div class="tm-article">
+                                            <div class="uk-text-center">
+                                                <h2 class="uk-module-title">@row["ItemName"]</h2>
+                                            </div>
+
+                                            <div class="uk-grid uk-grid-width-medium-1-2 uk-grid-width-large-1-2" data-uk-grid-margin>
+                                                <div class="uk-panel uk-panel-space">
+                                                    <div data-uk-scrollspy="{cls:'uk-animation-slide-bottom', delay:300}">
+                                                        <img style="width: 428px; height: 385px;" class="uk-thumbnail" src="~/Upload/Items/@row["ItemImage"]" alt="about us">
+                                                    </div>
+                                                </div>
+                                                <div class="uk-panel uk-panel-space">
+                                                    <div data-uk-scrollspy="{cls:'uk-animation-slide-bottom', delay:100}">
+                                                        <div style="margin-left: -60px;">
+                                                            <ul style="list-style-type: square;">
+                                                                <li>
+                                                                    <p>@row["ItemDescription"]</p>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <hr style="margin-left: -60px; border:2px solid"/>
+                                                    <div style="margin-left: -60px;">
+                                                        <h3 class="uk-display-inline">Ingrediants</h3>                                                       
+                                                        @foreach (System.Data.DataRow row2 in ViewBag.Ing.Rows)
+                                                        {
+                                                            <ul>
+                                                                <li>@row2["IngName"]</li>
+                                                            </ul>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>                                         
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </article>
+                </main>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- js -->
+<script src="~/Content/Customer/js/jquery/jquery.min.js" type="text/javascript"></script>
+
+<!-- uikit -->
+<script src="~/Content/Customer/vendor/uikit/js/uikit.min.js" type="text/javascript"></script>
+
+<script src="~/Content/Customer/vendor/uikit/js/components/accordion.min.js" type="text/javascript"></script>
+<script src="~/Content/Customer/vendor/uikit/js/components/autocomplete.min.js" type="text/javascript"></script>
+<script src="~/Content/Customer/vendor/uikit/js/components/datepicker.min.js" type="text/javascript"></script>
+<script src="~/Content/Customer/vendor/uikit/js/components/grid.min.js" type="text/javascript"></script>
+<script src="~/Content/Customer/vendor/uikit/js/components/lightbox.min.js" type="text/javascript"></script>
+<script src="~/Content/Customer/vendor/uikit/js/components/parallax.min.js" type="text/javascript"></script>
+<script src="~/Content/Customer/vendor/uikit/js/components/slider.min.js" type="text/javascript"></script>
+<script src="~/Content/Customer/vendor/uikit/js/components/slideset.min.js" type="text/javascript"></script>
+<script src="~/Content/Customer/vendor/uikit/js/components/slideshow.min.js" type="text/javascript"></script>
+<script src="~/Content/Customer/vendor/uikit/js/components/sticky.min.js" type="text/javascript"></script>
+<script src="~/Content/Customer/vendor/uikit/js/components/timepicker.min.js" type="text/javascript"></script>
+<script src="~/Content/Customer/vendor/uikit/js/components/tooltip.min.js" type="text/javascript"></script>
+
+<!-- theme -->
+<script src="~/Content/Customer/js/theme.js" type="text/javascript"></script>
+
+<!-- plyr -->
+<script src="~/Content/Customer/js/plyr.js" type="text/javascript"></script>
+
+<!-- add active menu -->
+<script>
+    $(function () {
+        function getUrlVars() {
+            var vars = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+                vars[key] = value;
+            });
+            return vars;
+        }
+
+        var current_page = "indexa54e.html?page=" + getUrlVars()["page"];
+        $('.tm-nav li a').each(function () {
+            var link_page = this.href.substring(this.href.lastIndexOf('https://demo.arrowthemes.com/') + 1);
+            var parent = $(this).parent();
+            if (current_page == link_page) {
+                parent.addClass('uk-active').closest('.uk-navbar-nav > li').addClass('uk-active');
+                parent.closest('li.uk-parent').addClass('uk-active');
+            }
+        });
+    })</script>
+
+
+
+<script>
+    // demo scripts
+    (function ($) { $(document).on('ready', function () { var config = $("html").data("config") || { style: "default" }; $('img[src*="demo/default"]').each(function () { var e = new Image, c = this.src.replace("demo/default", "demo/" + config.style), a = this; e.onload = function () { a.src = c }, e.src = c }), setTimeout(function () { $(".uk-cover-background").each(function () { var e = new Image, c = $(this).css("background-image").replace("demo/default", "demo/" + config.style), a = $(this); e.onload = function () { a.css("background-image", c) }, e.src = c.replace(/url\(\"?(.+?)\"?\)/i, "$1") }) }, 20); }); })(jQuery);</script>

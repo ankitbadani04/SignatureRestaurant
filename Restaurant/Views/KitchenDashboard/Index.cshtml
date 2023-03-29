@@ -1,0 +1,198 @@
+﻿@using Restaurant.Models
+@model Morder
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_KitchenLayout.cshtml";
+
+}
+<meta http-equiv="refresh" content="15">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Kitchen Dashboard- Signature Restaurant & Green Food</title>
+<!-- Global stylesheets -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+<link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/components.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+<!-- /global stylesheets -->
+<!-- Core JS files -->
+<script src="~/Content/global_assets/js/main/jquery.min.js"></script>
+<script src="~/Content/global_assets/js/main/bootstrap.bundle.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/loaders/blockui.min.js"></script>
+<!-- /core JS files -->
+<!-- Theme JS files -->
+<script src="~/Content/global_assets/js/plugins/media/fancybox.min.js"></script>
+<script src="~/Content/assets/js/app.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/content_cards_content.js"></script>
+<script src="~/Content/global_assets/js/plugins/buttons/spin.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/buttons/ladda.min.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/components_buttons.js"></script>
+<!-- /theme JS files -->
+<!-- Theme JS files responsive Table -->
+<script src="~/Content/global_assets/js/plugins/tables/footable/footable.min.js"></script>
+<script src="~/Content/assets/js/app.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/table_responsive.js"></script>
+<!-- /theme JS files -->
+<!-- Theme JS files card-->
+<script src="~/Content/global_assets/js/plugins/media/fancybox.min.js"></script>
+<script src="~/Content/assets/js/app.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/content_cards_content.js"></script>
+<!-- /theme JS files -->
+<!-- Page header -->
+<div class="page-header page-header-light">
+    <div class="page-header-content header-elements-md-inline">
+        <div class="page-title d-flex">
+            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">View Order</span></h4>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+        @*<div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
+                </div>
+            </div>*@
+    </div>
+</div>
+<!-- /page header -->
+<!-- Content area -->
+<div class="content">
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                @if (Model != null && Model.Orderlist != null)
+                {
+                    foreach (System.Data.DataRow row in Model.Orderlist.Rows)
+                    {
+                        <div class="col-4">
+
+                            <!--Order details card-->
+                            <div class="card">
+                                <div class="card-header bg-white header-elements-inline" style="padding-bottom: 10px; padding-top: 10px;">
+                                    <h5 class="card-title">@row["TableNumber"]</h5>
+
+                                </div>
+
+                                <div class="card-body" style="margin:0px; padding:0px;">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Qty</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model != null && Model.Orderitemlist != null && Model.Orderitemlist.Rows.Count > 0)
+                                                {
+                                                    foreach (System.Data.DataRow item in Model.Orderitemlist.Rows)
+                                                    {
+                                                        if (item["TableID"].ToString() == row["TableID"].ToString())
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    @item["ItemName"]
+
+                                                                </td>
+                                                                <td>
+                                                                    @item["OItemQty"]
+                                                                </td>
+                                                                <td>
+                                                                    @if (item["OItemStatus"].ToString() == "New")
+                                                                    {
+                                                                        <span class="badge badge-primary">New</span>
+                                                                    }
+                                                                    else if (item["OItemStatus"].ToString() == "Preparing")
+                                                                    {
+                                                                        <span class="badge badge-warning">Preparing</span>
+                                                                    }
+                                                                    else if (item["OItemStatus"].ToString() == "Delivered")
+                                                                    {
+                                                                        <span class="badge badge-light">Delivered</span>
+                                                                    }
+                                                                    else if (item["OItemStatus"].ToString() == "Complete")
+                                                                    {
+                                                                        <span class="badge badge-success">Complete</span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span class="badge bg-danger-700">Cancel</span>
+                                                                    }
+                                                                </td>
+                                                            </tr>
+
+                                                        }
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                        <div class="btn-group btn-group-justified">
+                                            <a href="#" class="btn btn-primary">New</a>
+                                            <a href="@Url.Action("OStatusPre", "KitchenDashboard", new { id = row["OrderID"]})" class="btn btn-light">Preparing</a>
+                                            <a href="@Url.Action("OStatusdeli", "KitchenDashboard", new { id = row["OrderID"]})" class="btn btn-light">Delivered</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Order details card-->
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+
+                                <th>Item</th>
+                                <th>Qty</th>
+
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Orderitemlist != null && Model.Orderitemlist.Rows.Count > 0)
+                            {
+                                foreach (System.Data.DataRow row in Model.Orderitemlist.Rows)
+                                {
+                                    <tr>
+                                        <td>
+                                            @row["OrderID"]
+                                        </td>
+                                        <td>
+                                            @row["ItemName"]
+                                        </td>
+                                        <td>
+                                            @row["OItemQty"]
+                                        </td>
+                                        <td>
+
+                                            @row["OItemStatus"]
+                                        </td>
+                                        <td>                                           
+                                            <a href="@Url.Action("changestatus", "KitchenDashboard", new { id = row["OrderItemID"]})"><span class="badge badge-success rounded-round">Complete</span></a>                                            
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /content area -->

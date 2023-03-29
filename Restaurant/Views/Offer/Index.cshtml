@@ -1,0 +1,175 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Offers - Signature Restaurant & Green Food</title>
+<!-- Global stylesheets -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+<link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/components.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/global_assets/css/icons/fontawesome/styles.min.css" rel="stylesheet" type="text/css">
+<!-- /global stylesheets -->
+<!-- Core JS files -->
+<script src="~/Content/global_assets/js/main/jquery.min.js"></script>
+<script src="~/Content/global_assets/js/main/bootstrap.bundle.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/loaders/blockui.min.js"></script>
+<!-- /core JS files -->
+<!-- Theme JS files DataTable-->
+<script src="~/Content/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="~/Content/assets/js/app.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/datatables_basic.js"></script>
+<!-- /theme JS files DataTable-->
+<!-- Theme JS files IMAGE-->
+<script src="~/Content/global_assets/js/demo_pages/gallery_library.js"></script>
+<script src="~/Content/global_assets/js/plugins/media/fancybox.min.js"></script>
+<!-- /theme JS files IMAGE-->
+<!-- Page header -->
+<div class="page-header page-header-light">
+    <div class="page-header-content header-elements-md-inline">
+        <div class="page-title d-flex">
+            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Offer</span> - Manage Offer</h4>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+        @*<div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
+                </div>
+            </div>*@
+    </div>
+    <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+        <div class="d-flex">
+            <div class="breadcrumb">
+                <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+                <a href="form_layout_vertical.html" class="breadcrumb-item">Utility</a>
+                <span class="breadcrumb-item active">Offer</span>
+                <span class="breadcrumb-item active">View</span>
+            </div>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+    </div>
+</div>
+<!-- /page header -->
+<!-- Content area -->
+<div class="content">
+
+    <!-- Hover rows -->
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            <h5 class="card-title">Offer</h5>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a href="@Url.Action("Create","Offer")" class="btn bg-teal-400 btn-labeled btn-labeled-left"><b><i class="icon-add"></i></b> Add New </a>
+                </div>
+            </div>
+        </div>
+
+
+        <table class="table datatable-basic table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Total Amount</th>
+                    <th>Discount</th>
+                    <th>Active</th>
+                    <th>Image</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Rows != null && Model.Rows.Count > 0)
+                {
+                    foreach (System.Data.DataRow row in Model.Rows)
+                    {
+                        <tr>
+                            <td>@row["Name"]</td>
+                            <td>@Convert.ToDateTime(row["StartDate"]).ToString("dd/MM/yyyy")</td>
+                            <td>@Convert.ToDateTime(row["EndDate"]).ToString("dd/MM/yyyy")</td>
+                            <td>@row["TotalAmt"]</td>
+                            <td>@row["Discount"]</td>
+                            <td>
+                                @if (row["IsActive"].ToString() == "Yes")
+                                {
+                                    <a href="@Url.Action("offerstatus", "Offer", new { id = row["OfferID"],status="No" })"><span class="badge badge-primary">Yes</span></a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("offerstatus", "Offer", new { id = row["OfferID"],status="Yes" })"><span class="badge bg-danger-700">No</span></a>
+                                }
+                            </td>
+                            <td>
+                                <a href="~/Upload/Offer/@row["Image"]" data-popup="lightbox">
+                                    <img src="~/Upload/Offer/@row["Image"]" alt="" class="img-preview rounded" style="height:70px; width:70px;">
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <div class="list-icons">
+
+                                    <div class="dropdown">
+                                        <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a href="@Url.Action("Edit","Offer", new { id = row["OfferID"] })" class="dropdown-item"><i class="icon-pencil5"></i> Update</a>
+                                            <a href="#" class="dropdown-item btndelete" data-id="@row["OfferID"]" data-toggle="modal" data-target="#modal_small"><i class="icon-diff-removed"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /hover rows -->
+
+</div>
+<!-- /content area -->
+<!-- Small modal -->
+<div id="modal_small" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete ?</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form method="post" action="/Offer/Delete">
+                <div class="modal-body">
+                    <h6 class="font-weight-semibold">Are you sure want to delete ?</h6>
+                    <input type="hidden" id="txthfdid" name="txthfdid" />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn bg-primary">Yes</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">No</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /small modal -->
+
+
+<script>
+    $(document).ready(function () {
+        $(document).on("click", ".btndelete", function () {
+            var did = $(this).data('id');
+            $("#txthfdid").val(did);
+        });
+    });
+</script>

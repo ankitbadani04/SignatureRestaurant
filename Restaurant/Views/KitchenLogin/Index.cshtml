@@ -1,0 +1,149 @@
+﻿@using Restaurant.Models
+@model Mlogin
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Kitchen Login - Signature Restaurant & Green Food</title>
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/components.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    <script src="~/Content/global_assets/js/main/jquery.min.js"></script>
+    <script src="~/Content/global_assets/js/main/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/global_assets/js/plugins/loaders/blockui.min.js"></script>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    <script src="~/Content/global_assets/js/plugins/forms/validation/validate.min.js"></script>
+    <script src="~/Content/global_assets/js/plugins/forms/styling/uniform.min.js"></script>
+    <script src="~/Content/assets/js/app.js"></script>
+    @*<script src="~/Content/global_assets/js/demo_pages/login_validation.js"></script>*@
+    <!-- /theme JS files -->
+    <!-- Theme JS files sweetalert-->
+    <script src="~/Content/global_assets/js/plugins/notifications/sweet_alert.min.js"></script>
+    <script src="~/Content/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+    <script src="~/Content/global_assets/js/plugins/forms/styling/uniform.min.js"></script>
+    <script src="~/Content/global_assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+    <script src="~/Content/global_assets/js/plugins/forms/styling/switchery.min.js"></script>
+    <script src="~/Content/global_assets/js/demo_pages/extra_sweetalert.js"></script>
+    <!-- /theme JS files sweetalert -->
+</head>
+<body>
+    <!-- Page content -->
+    <div class="page-content login-cover" style="margin-top: 0px;">
+        <!-- Main content -->
+        <div class="content-wrapper">
+            <!-- Content area -->
+            <div class="content d-flex justify-content-center align-items-center">
+                <!-- Login card -->
+
+                @using (Html.BeginForm("Save", "KitchenLogin", FormMethod.Post, new { @class = "login-form form-validate", @id = "frmtype", enctype = "multipart/form-data" }))
+                {
+                    <div class="card mb-0">
+
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="icon-user icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"></i>
+                                <h5 class="mb-0">Login to your account</h5>
+                                <span class="d-block text-muted">Kitchen Login</span>
+                                @if (ViewBag.ErrorMsg != "")
+                                {
+                                    if (ViewBag.ErrorMsg == "UserBlock")
+                                    {
+                                        <div class="alert alert-danger alert-styled-left alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                                            <span class="font-weight-semibold">Your Account Is Blocked!</span>
+                                        </div>
+                                    }
+                                    else if (ViewBag.ErrorMsg == "Invalid")
+                                    {
+                                        <div class="alert alert-warning alert-styled-left alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                                            <span class="font-weight-semibold">Sorry!</span> Username and Password Incorrect.!
+                                        </div>
+                                    }
+                                    else if (ViewBag.ErrorMsg == "NotFound")
+                                    {
+                                        <div class="alert alert-warning alert-styled-left alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                                            <span class="font-weight-semibold">Sorry!</span> User is Not Found.
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-warning alert-styled-left alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                                            <span class="font-weight-semibold">Warning!</span> @ViewBag.ErrorMsg
+                                        </div>
+                                    }
+
+                                }
+
+                            </div>
+                            <div class="form-group form-group-feedback form-group-feedback-left">
+                                @Html.TextBoxFor(M => M.Username, new { @type = "text", @class = "form-control", @name = "username", @placeholder = "Username", @required = "required" })
+                                <div class="form-control-feedback">
+                                    <i class="icon-user text-muted"></i>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-feedback form-group-feedback-left">
+                                @Html.TextBoxFor(M => M.Password, new { @type = "Password", @class = "form-control", @name = "password", @id = "myInput", @placeholder = "password", @required = "required" })
+                                <div class="form-control-feedback">
+                                    <i class="icon-lock2 text-muted"></i>
+                                </div>
+                                <div class="form-check" style="margin: 4px -10px;">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" onclick="myFunction()" style=" margin-left: -19px; margin-top: 4px;">
+                                        Show Password
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex align-items-center">
+                                <div class="form-check mb-0">
+                                    <label class="form-check-label">
+                                       
+                                    </label>
+                                </div>
+                                <a href="@Url.Action("ForgotPassword","KitchenLogin")" class="ml-auto">Forgot password?</a>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">Sign in <i class="icon-circle-right2 ml-2"></i></button>
+                            </div>
+                           
+                            
+                        </div>
+                    </div>
+                }
+                <!-- /login card -->
+            </div>
+            <!-- /content area -->
+        </div>
+        <!-- /main content -->
+    </div>
+    <!-- /page content -->
+</body>
+</html>
+
+<script>
+    function myFunction() {
+        var x = document.getElementById("myInput");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>

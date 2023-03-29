@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
+<title>Item - Signature Restaurant & Green Food</title>
 <!-- Global stylesheets -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
 <link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
@@ -21,14 +21,17 @@
 <script src="~/Content/global_assets/js/main/bootstrap.bundle.min.js"></script>
 <script src="~/Content/global_assets/js/plugins/loaders/blockui.min.js"></script>
 <!-- /core JS files -->
-<!-- Theme JS files -->
+<!-- Theme JS files DataTable-->
 <script src="~/Content/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
-<script src="~/Content/global_assets/js/plugins/tables/datatables/extensions/autofill.min.js"></script>
-<script src="~/Content/global_assets/js/plugins/tables/datatables/extensions/select.min.js"></script>
-<script src="~/Content/assets/js/app.js"></script>
 <script src="~/Content/global_assets/js/plugins/forms/selects/select2.min.js"></script>
-<script src="~/Content/global_assets/js/demo_pages/datatables_extension_autofill.js"></script>
-<!-- /theme JS files -->
+<script src="~/Content/assets/js/app.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/datatables_basic.js"></script>
+<!-- /theme JS files DataTable-->
+<!-- Theme JS files IMAGE-->
+<script src="~/Content/global_assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/gallery_library.js"></script>
+<script src="~/Content/global_assets/js/plugins/media/fancybox.min.js"></script>
+<!-- /theme JS files IMAGE-->
 <!-- Page header -->
 <div class="page-header page-header-light">
     <div class="page-header-content header-elements-md-inline">
@@ -36,19 +39,20 @@
             <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Item</span> - Manage Item </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
-        <div class="header-elements d-none">
-            <div class="d-flex justify-content-center">
-                <a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
-                <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
-                <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
-            </div>
-        </div>
+        @*<div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
+                </div>
+            </div>*@
     </div>
     <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
         <div class="d-flex">
             <div class="breadcrumb">
                 <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
                 <a href="form_layout_vertical.html" class="breadcrumb-item">Item</a>
+                <span class="breadcrumb-item active">Items</span>
                 <span class="breadcrumb-item active">View</span>
             </div>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
@@ -58,7 +62,8 @@
 <!-- /page header -->
 <!-- Content area -->
 <div class="content">
-    <!-- Always confirm action -->
+
+    <!-- Hover rows -->
     <div class="card">
         <div class="card-header header-elements-inline">
             <h5 class="card-title">Item</h5>
@@ -69,16 +74,16 @@
             </div>
         </div>
 
-        <table class="table datatable-autofill-confirm">
+
+
+        <table class="table datatable-basic table-hover">
             <thead>
                 <tr>
 
-                    <th>Category Id</th>
-                    <th>Item Name</th>
-
-                    <th>Item Image</th>
-                    <th>Item Type</th>
-
+                    <th>Category</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Type</th>
                     <th>Price</th>
                     <th class="text-center">Actions</th>
                 </tr>
@@ -90,20 +95,28 @@
                     {
                         <tr>
 
-                            <td>@row["CategoryID"]</td>
+                            <td>@row["CategoryName"]</td>
                             <td>@row["ItemName"]</td>
-                            <td>@row["ItemImage"]</td>
+                            <td>
+                                <a href="~/Upload/Items/@row["ItemImage"]" data-popup="lightbox">
+                                    <img src="~/Upload/Items/@row["ItemImage"]" alt="ITEM" class="img-preview rounded" style="height:70px; width:70px;">
+                                </a>
+                            </td>
                             <td>@row["ItemType"]</td>
-                            <td>@row["ItemPrice"]</td>
+                            <td>@row["ItemPrice"] &#8377;</td>
                             <td class="text-center">
                                 <div class="list-icons">
+
                                     <div class="dropdown">
                                         <a href="#" class="list-icons-item" data-toggle="dropdown">
                                             <i class="icon-menu9"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
                                             <a href="@Url.Action("Edit","Item", new { id = row["ItemID"] })" class="dropdown-item"><i class="icon-pencil5"></i> Update</a>
+
                                             <a href="#" class="dropdown-item btndelete" data-id="@row["ItemID"]" data-toggle="modal" data-target="#modal_small"><i class="icon-diff-removed"></i> Delete</a>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -112,9 +125,10 @@
                     }
                 }
             </tbody>
+
         </table>
     </div>
-    <!-- /always confirm action -->
+    <!-- /hover rows -->
 
 </div>
 <!-- /content area -->
@@ -144,11 +158,18 @@
 <!-- /small modal -->
 
 <script>
-    $(document).ready(function () {
-
-        $(".btndelete").on('click', function () {
+    $(document).ready(function () {       
+        $(document).on("click", ".btndelete", function () {
             var did = $(this).data('id');
             $("#txthfdid").val(did);
         });
+
+        $(document).on('click', '[data-popup="lightbox"]', function (event) {
+            event.preventDefault();
+            $(this).ekkoLightbox();
+        });
     });
 </script>
+
+
+

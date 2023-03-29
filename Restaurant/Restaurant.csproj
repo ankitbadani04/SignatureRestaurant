@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Restaurant</RootNamespace>
     <AssemblyName>Restaurant</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,19 +46,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
@@ -102,6 +109,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -121,28 +129,57 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Admin\CategoryController.cs" />
+    <Compile Include="Controllers\Admin\DashboardController.cs" />
+    <Compile Include="Controllers\Admin\FeedbackController.cs" />
+    <Compile Include="Controllers\Admin\LogController.cs" />
+    <Compile Include="Controllers\Admin\OfferController.cs" />
+    <Compile Include="Controllers\Admin\OrderController.cs" />
+    <Compile Include="Controllers\Admin\OrderItemController.cs" />
+    <Compile Include="Controllers\Admin\ReportController.cs" />
+    <Compile Include="Controllers\Admin\ReviewController.cs" />
+    <Compile Include="Controllers\Admin\UserController.cs" />
+    <Compile Include="Controllers\Customer\SignatureRestaurantController.cs" />
+    <Compile Include="Controllers\Employee\EmployeeDashboardController.cs" />
+    <Compile Include="Controllers\Employee\EmployeeLoginController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Admin\IngredientsController.cs" />
     <Compile Include="Controllers\Admin\ItemController.cs" />
     <Compile Include="Controllers\Admin\ItemIngController.cs" />
     <Compile Include="Controllers\Admin\LoginController.cs" />
     <Compile Include="Controllers\Admin\PartyController.cs" />
-    <Compile Include="Controllers\Admin\RegisterController.cs" />
     <Compile Include="Controllers\Admin\StockController.cs" />
     <Compile Include="Controllers\Admin\TableController.cs" />
+    <Compile Include="Controllers\kitchen\KitchenDashboardController.cs" />
+    <Compile Include="Controllers\kitchen\KitchenLoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\IngStock.cs" />
+    <Compile Include="Models\Mbooktable.cs" />
     <Compile Include="Models\Mcategory.cs" />
+    <Compile Include="Models\Mcustlogin.cs" />
+    <Compile Include="Models\Mcustregister.cs" />
+    <Compile Include="Models\Mfeedback.cs" />
     <Compile Include="Models\Mingredients.cs" />
     <Compile Include="Models\Mitem.cs" />
     <Compile Include="Models\Miteming.cs" />
+    <Compile Include="Models\Mlog.cs" />
     <Compile Include="Models\Mlogin.cs" />
+    <Compile Include="Models\Moffer.cs" />
+    <Compile Include="Models\Morder.cs" />
+    <Compile Include="Models\Morderitem.cs" />
     <Compile Include="Models\Mparty.cs" />
-    <Compile Include="Models\Mregister.cs" />
+    <Compile Include="Models\Mreview.cs" />
     <Compile Include="Models\Mstock.cs" />
     <Compile Include="Models\Mtable.cs" />
+    <Compile Include="Models\Muser.cs" />
+    <Compile Include="Models\Viewmodel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\database.mdf" />
@@ -165,6 +202,173 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Customer\css\custom.css" />
+    <Content Include="Content\Customer\css\plyr.css" />
+    <Content Include="Content\Customer\css\theme-black.css" />
+    <Content Include="Content\Customer\css\theme-calico.css" />
+    <Content Include="Content\Customer\css\theme-espresso.css" />
+    <Content Include="Content\Customer\css\theme-indigo.css" />
+    <Content Include="Content\Customer\css\theme-paprika.css" />
+    <Content Include="Content\Customer\css\theme-rtl.css" />
+    <Content Include="Content\Customer\css\theme-tangelo.css" />
+    <Content Include="Content\Customer\css\theme.css" />
+    <Content Include="Content\Customer\fonts\Pe-icon-7-strokebb1d.svg" />
+    <Content Include="Content\Customer\images\apple-touch-icon.png" />
+    <Content Include="Content\Customer\images\background\bg-1.jpg" />
+    <Content Include="Content\Customer\images\background\bg-4.jpg" />
+    <Content Include="Content\Customer\images\background\bg-image-1.jpg" />
+    <Content Include="Content\Customer\images\background\bg-image-11.jpg" />
+    <Content Include="Content\Customer\images\background\bg-image-12.jpg" />
+    <Content Include="Content\Customer\images\background\bg-image-2.jpg" />
+    <Content Include="Content\Customer\images\background\bg-image-3.jpg" />
+    <Content Include="Content\Customer\images\background\bg-image-4.jpg" />
+    <Content Include="Content\Customer\images\background\bg-image-5.jpg" />
+    <Content Include="Content\Customer\images\background\bg-image-6.jpg" />
+    <Content Include="Content\Customer\images\demo\audio\sample.mp3" />
+    <Content Include="Content\Customer\images\demo\audio\sample.ogg" />
+    <Content Include="Content\Customer\images\demo\avatar\client-1-thumb.png" />
+    <Content Include="Content\Customer\images\demo\avatar\client-1.jpg" />
+    <Content Include="Content\Customer\images\demo\avatar\client-2-thumb.png" />
+    <Content Include="Content\Customer\images\demo\avatar\client-2.jpg" />
+    <Content Include="Content\Customer\images\demo\avatar\client-3-thumb.png" />
+    <Content Include="Content\Customer\images\demo\avatar\client-3.jpg" />
+    <Content Include="Content\Customer\images\demo\avatar\client-4-thumb.png" />
+    <Content Include="Content\Customer\images\demo\avatar\client-4.jpg" />
+    <Content Include="Content\Customer\images\demo\avatar\client-5.png" />
+    <Content Include="Content\Customer\images\demo\black\slider\1.jpg" />
+    <Content Include="Content\Customer\images\demo\black\slider\2.jpg" />
+    <Content Include="Content\Customer\images\demo\black\slider\3.jpg" />
+    <Content Include="Content\Customer\images\demo\calico\slider\1.jpg" />
+    <Content Include="Content\Customer\images\demo\calico\slider\2.jpg" />
+    <Content Include="Content\Customer\images\demo\calico\slider\3.jpg" />
+    <Content Include="Content\Customer\images\demo\default\blog\blog-1.jpg" />
+    <Content Include="Content\Customer\images\demo\default\blog\blog-2.jpg" />
+    <Content Include="Content\Customer\images\demo\default\blog\blog-3.jpg" />
+    <Content Include="Content\Customer\images\demo\default\blog\blog-4.jpg" />
+    <Content Include="Content\Customer\images\demo\default\content\about-us.jpg" />
+    <Content Include="Content\Customer\images\demo\default\content\dish-1.png" />
+    <Content Include="Content\Customer\images\demo\default\content\dish-2.png" />
+    <Content Include="Content\Customer\images\demo\default\content\dish-3.png" />
+    <Content Include="Content\Customer\images\demo\default\content\dish-4.png" />
+    <Content Include="Content\Customer\images\demo\default\content\dish-5.png" />
+    <Content Include="Content\Customer\images\demo\default\content\dish-6.png" />
+    <Content Include="Content\Customer\images\demo\default\logo\logo-bottom.svg" />
+    <Content Include="Content\Customer\images\demo\default\logo\logo-small.svg" />
+    <Content Include="Content\Customer\images\demo\default\logo\logo.svg" />
+    <Content Include="Content\Customer\images\demo\default\overlay\overlay-1.png" />
+    <Content Include="Content\Customer\images\demo\default\overlay\overlay-2.png" />
+    <Content Include="Content\Customer\images\demo\default\overlay\overlay-3.png" />
+    <Content Include="Content\Customer\images\demo\default\slider\1.jpg" />
+    <Content Include="Content\Customer\images\demo\default\slider\2.jpg" />
+    <Content Include="Content\Customer\images\demo\default\slider\3.jpg" />
+    <Content Include="Content\Customer\images\demo\espresso\slider\1.jpg" />
+    <Content Include="Content\Customer\images\demo\espresso\slider\2.jpg" />
+    <Content Include="Content\Customer\images\demo\espresso\slider\3.jpg" />
+    <Content Include="Content\Customer\images\demo\features\module-layouts.svg" />
+    <Content Include="Content\Customer\images\demo\gallery\01.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\02.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\03.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\04.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\05.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\06.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\07.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\08.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\09.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\24.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\10.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\11.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\12.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\13.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\14.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\15.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\16.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\17.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\18.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\19.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\25.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\20.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\21.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\22.jpg" />
+    <Content Include="Content\Customer\images\demo\gallery\23.jpg" />
+    <Content Include="Content\Customer\images\demo\icons\icon-apple.svg" />
+    <Content Include="Content\Customer\images\demo\icons\icon-burger.svg" />
+    <Content Include="Content\Customer\images\demo\icons\icon-cup-half.svg" />
+    <Content Include="Content\Customer\images\demo\icons\icon-dish.svg" />
+    <Content Include="Content\Customer\images\demo\icons\icon-drink.svg" />
+    <Content Include="Content\Customer\images\demo\icons\icon-icecream.svg" />
+    <Content Include="Content\Customer\images\demo\icons\icon-sausage.svg" />
+    <Content Include="Content\Customer\images\demo\icons\icon-steamer.svg" />
+    <Content Include="Content\Customer\images\demo\indigo\slider\1.jpg" />
+    <Content Include="Content\Customer\images\demo\indigo\slider\2.jpg" />
+    <Content Include="Content\Customer\images\demo\indigo\slider\3.jpg" />
+    <Content Include="Content\Customer\images\demo\menu\food-1.png" />
+    <Content Include="Content\Customer\images\demo\menu\food-10.jpg" />
+    <Content Include="Content\Customer\images\demo\menu\food-11.jpg" />
+    <Content Include="Content\Customer\images\demo\menu\food-12.jpg" />
+    <Content Include="Content\Customer\images\demo\menu\food-2.png" />
+    <Content Include="Content\Customer\images\demo\menu\food-3.png" />
+    <Content Include="Content\Customer\images\demo\menu\food-4.png" />
+    <Content Include="Content\Customer\images\demo\menu\food-5.png" />
+    <Content Include="Content\Customer\images\demo\menu\food-6.png" />
+    <Content Include="Content\Customer\images\demo\menu\food-7.jpg" />
+    <Content Include="Content\Customer\images\demo\menu\food-8.jpg" />
+    <Content Include="Content\Customer\images\demo\menu\food-9.jpg" />
+    <Content Include="Content\Customer\images\demo\menu\special-1.jpg" />
+    <Content Include="Content\Customer\images\demo\menu\special-2.jpg" />
+    <Content Include="Content\Customer\images\demo\menu\special-3.jpg" />
+    <Content Include="Content\Customer\images\demo\menu\special-4.jpg" />
+    <Content Include="Content\Customer\images\demo\menu\special-5.jpg" />
+    <Content Include="Content\Customer\images\demo\menu\special-6.jpg" />
+    <Content Include="Content\Customer\images\demo\menu\special-7.jpg" />
+    <Content Include="Content\Customer\images\demo\paprika\slider\1.jpg" />
+    <Content Include="Content\Customer\images\demo\paprika\slider\2.jpg" />
+    <Content Include="Content\Customer\images\demo\paprika\slider\3.jpg" />
+    <Content Include="Content\Customer\images\demo\signature\sign-1-white.png" />
+    <Content Include="Content\Customer\images\demo\signature\sign-1.png" />
+    <Content Include="Content\Customer\images\demo\styles\1.jpg" />
+    <Content Include="Content\Customer\images\demo\styles\2.jpg" />
+    <Content Include="Content\Customer\images\demo\styles\3.jpg" />
+    <Content Include="Content\Customer\images\demo\styles\4.jpg" />
+    <Content Include="Content\Customer\images\demo\styles\5.jpg" />
+    <Content Include="Content\Customer\images\demo\styles\6.jpg" />
+    <Content Include="Content\Customer\images\demo\tangelo\slider\1.jpg" />
+    <Content Include="Content\Customer\images\demo\tangelo\slider\2.jpg" />
+    <Content Include="Content\Customer\images\demo\tangelo\slider\3.jpg" />
+    <Content Include="Content\Customer\images\demo\uikit\uikit_avatar.svg" />
+    <Content Include="Content\Customer\images\demo\uikit\uikit_placeholder.svg" />
+    <Content Include="Content\Customer\images\demo\video\big_buck_bunny.mp4" />
+    <Content Include="Content\Customer\images\demo\video\big_buck_bunny.webm" />
+    <Content Include="Content\Customer\images\demo\video\poster.jpg" />
+    <Content Include="Content\Customer\images\favicon.ico" />
+    <Content Include="Content\Customer\images\icons\chat.svg" />
+    <Content Include="Content\Customer\js\jquery\jquery.min.js" />
+    <Content Include="Content\Customer\js\plyr.js" />
+    <Content Include="Content\Customer\js\theme.js" />
+    <Content Include="Content\Customer\only font logo.svg" />
+    <Content Include="Content\Customer\only font logo1.svg" />
+    <Content Include="Content\Customer\vendor\fullcalendar\fullcalendar.min.css" />
+    <Content Include="Content\Customer\vendor\fullcalendar\fullcalendar.min.js" />
+    <Content Include="Content\Customer\vendor\fullcalendar\lib\moment.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\components\accordion.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\components\autocomplete.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\components\datepicker.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\components\grid.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\components\lightbox.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\components\parallax.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\components\slider.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\components\slideset.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\components\slideshow.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\components\sticky.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\components\timepicker.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\components\tooltip.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\uikit-rtl.min.js" />
+    <Content Include="Content\Customer\vendor\uikit\js\uikit.min.js" />
+    <Content Include="Content\Final-Logo\logo-dark1.png" />
+    <Content Include="Content\Final-Logo\Logo-Font-Dark.png" />
+    <Content Include="Content\Final-Logo\Logo-Font.png" />
+    <Content Include="Content\Final-Logo\logo1.png" />
+    <Content Include="Content\Final-Logo\new logo font dark.png" />
+    <Content Include="Content\Final-Logo\new logo font.png" />
     <Content Include="Content\global_assets\css\extras\animate.min.css" />
     <Content Include="Content\global_assets\css\icons\fontawesome\fonts\fa-brands-400.svg" />
     <Content Include="Content\global_assets\css\icons\fontawesome\fonts\fa-regular-400.svg" />
@@ -227,6 +431,32 @@
     <Content Include="Content\global_assets\images\signature.png" />
     <Content Include="Content\global_assets\images\ui\datepicker_trigger.png" />
     <Content Include="Content\global_assets\images\ui\map_marker.png" />
+    <Content Include="Content\global_assets\images\users\face1.jpg" />
+    <Content Include="Content\global_assets\images\users\face10.jpg" />
+    <Content Include="Content\global_assets\images\users\face11.jpg" />
+    <Content Include="Content\global_assets\images\users\face12.jpg" />
+    <Content Include="Content\global_assets\images\users\face13.jpg" />
+    <Content Include="Content\global_assets\images\users\face14.jpg" />
+    <Content Include="Content\global_assets\images\users\face15.jpg" />
+    <Content Include="Content\global_assets\images\users\face16.jpg" />
+    <Content Include="Content\global_assets\images\users\face17.jpg" />
+    <Content Include="Content\global_assets\images\users\face18.jpg" />
+    <Content Include="Content\global_assets\images\users\face19.jpg" />
+    <Content Include="Content\global_assets\images\users\face2.jpg" />
+    <Content Include="Content\global_assets\images\users\face20.jpg" />
+    <Content Include="Content\global_assets\images\users\face21.jpg" />
+    <Content Include="Content\global_assets\images\users\face22.jpg" />
+    <Content Include="Content\global_assets\images\users\face23.jpg" />
+    <Content Include="Content\global_assets\images\users\face24.jpg" />
+    <Content Include="Content\global_assets\images\users\face25.jpg" />
+    <Content Include="Content\global_assets\images\users\face3.jpg" />
+    <Content Include="Content\global_assets\images\users\face4.jpg" />
+    <Content Include="Content\global_assets\images\users\face5.jpg" />
+    <Content Include="Content\global_assets\images\users\face6.jpg" />
+    <Content Include="Content\global_assets\images\users\face7.jpg" />
+    <Content Include="Content\global_assets\images\users\face8.jpg" />
+    <Content Include="Content\global_assets\images\users\face9.jpg" />
+    <Content Include="Content\global_assets\images\users\icons8-user.png" />
     <Content Include="Content\global_assets\images\windows.svg" />
     <Content Include="Content\global_assets\js\demo_pages\alpaca_advanced.js" />
     <Content Include="Content\global_assets\js\demo_pages\alpaca_basic.js" />
@@ -2013,6 +2243,9 @@
     <Content Include="Content\global_assets\js\polyfills\fetch.min.js" />
     <Content Include="Content\global_assets\js\polyfills\promise.min.js" />
     <Content Include="Content\global_assets\swf\datatables\flashExport.swf" />
+    <Content Include="Content\validation\additional-methods.min.js" />
+    <Content Include="Content\validation\jquery.blockUI.js" />
+    <Content Include="Content\validation\jquery.validate.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -2607,6 +2840,17 @@
     <Content Include="Content\global_assets\scss\_bootstrap\_utilities.scss" />
     <Content Include="Content\global_assets\scss\_bootstrap\_variables.scss" />
     <Content Include="Content\global_assets\scss\_config.scss" />
+    <Content Include="Content\Customer\fonts\Pe-icon-7-strokebb1d.eot" />
+    <Content Include="Content\Customer\fonts\Pe-icon-7-strokebb1d.ttf" />
+    <Content Include="Content\Customer\fonts\Pe-icon-7-strokebb1d.woff" />
+    <Content Include="Content\Customer\fonts\Pe-icon-7-stroked41d.eot" />
+    <Content Include="Content\Customer\vendor\uikit\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Customer\vendor\uikit\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Customer\vendor\uikit\fonts\fontawesome-webfont.woff2" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -2647,17 +2891,81 @@
     <Content Include="Views\ItemIng\Create.cshtml" />
     <Content Include="Views\ItemIng\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\Register\Create.cshtml" />
     <Content Include="Views\Category\Edit.cshtml" />
     <Content Include="Views\Ingredients\Edit.cshtml" />
     <Content Include="Views\Item\Edit.cshtml" />
     <Content Include="Views\ItemIng\Edit.cshtml" />
     <Content Include="Views\Party\Edit.cshtml" />
     <Content Include="Views\Stock\Edit.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Review\Index.cshtml" />
+    <Content Include="Views\Log\Index.cshtml" />
+    <Content Include="Views\OrderItem\Index.cshtml" />
+    <Content Include="Views\Table\Edit.cshtml" />
+    <Content Include="Views\Order\Create.cshtml" />
+    <Content Include="Views\Order\Edit.cshtml" />
+    <Content Include="Views\OrderItem\Create.cshtml" />
+    <Content Include="Views\OrderItem\Edit.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\Order\Status.cshtml" />
+    <Content Include="Views\KitchenLogin\Index.cshtml" />
+    <Content Include="Views\KitchenDashboard\Index.cshtml" />
+    <Content Include="Views\EmployeeLogin\Index.cshtml" />
+    <Content Include="Views\EmployeeDashboard\Index.cshtml" />
+    <Content Include="Views\User\Admin.cshtml" />
+    <Content Include="Views\User\Waiter.cshtml" />
+    <Content Include="Views\User\Kitchen.cshtml" />
+    <Content Include="Views\Stock\Stockreport.cshtml" />
+    <Content Include="Views\Feedback\Index.cshtml" />
+    <Content Include="Views\Offer\Create.cshtml" />
+    <Content Include="Views\Offer\Index.cshtml" />
+    <Content Include="Views\Offer\Edit.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\Order\Iteminfo.cshtml" />
+    <Content Include="Views\Order\Completeorder.cshtml" />
+    <Content Include="Views\Shared\_EmpLayout.cshtml" />
+    <Content Include="Views\EmployeeDashboard\CompleteOrder.cshtml" />
+    <Content Include="Views\Shared\_KitchenLayout.cshtml" />
+    <Content Include="Views\Shared\_CustomerLayout.cshtml" />
+    <Content Include="Views\SignatureRestaurant\Home.cshtml" />
+    <Content Include="Views\SignatureRestaurant\Menu.cshtml" />
+    <Content Include="Views\SignatureRestaurant\BookATable.cshtml" />
+    <Content Include="Views\SignatureRestaurant\AboutUs.cshtml" />
+    <Content Include="Views\SignatureRestaurant\ContactUs.cshtml" />
+    <Content Include="Views\SignatureRestaurant\MoreInfo.cshtml" />
+    <Content Include="Views\SignatureRestaurant\Register.cshtml" />
+    <Content Include="Views\SignatureRestaurant\Login.cshtml" />
+    <Content Include="Views\Shared\_OrderItem.cshtml" />
+    <Content Include="Views\EmployeeLogin\VerifyOTP.cshtml" />
+    <Content Include="Views\EmployeeLogin\NewPassword.cshtml" />
+    <Content Include="Views\EmployeeLogin\ForgotPassword.cshtml" />
+    <Content Include="Views\KitchenLogin\ForgotPassword.cshtml" />
+    <Content Include="Views\KitchenLogin\NewPassword.cshtml" />
+    <Content Include="Views\KitchenLogin\VerifyOTP.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Order\Invoice.cshtml" />
+    <Content Include="Views\Report\ItemReport.cshtml" />
+    <Content Include="Views\Item\ItemReport.cshtml" />
+    <Content Include="Views\Ingredients\IngredientReport.cshtml" />
+    <Content Include="Views\SignatureRestaurant\Review.cshtml" />
+    <Content Include="Views\SignatureRestaurant\Feedback.cshtml" />
+    <Content Include="Views\User\Customer.cshtml" />
+    <Content Include="Views\Table\TableReport.cshtml" />
+    <Content Include="Views\Review\Create.cshtml" />
+    <Content Include="Views\Order\Preparingorder.cshtml" />
+    <Content Include="Views\Table\BookTable.cshtml" />
+    <Content Include="Views\SignatureRestaurant\Verifycontact.cshtml" />
+    <Content Include="Views\SignatureRestaurant\VerifyOTP.cshtml" />
+    <Content Include="Views\SignatureRestaurant\NewPassword.cshtml" />
+    <Content Include="Views\SignatureRestaurant\MyProfile.cshtml" />
+    <Content Include="Views\Login\ForgotPassword.cshtml" />
+    <Content Include="Views\Login\VerifyOTP.cshtml" />
+    <Content Include="Views\Login\NewPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Upload\Ingredients\" />
     <Folder Include="Upload\Items\" />
+    <Folder Include="Upload\Offer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -2671,6 +2979,9 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

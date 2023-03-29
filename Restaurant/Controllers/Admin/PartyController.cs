@@ -45,20 +45,21 @@ namespace Restaurant.Controllers
             try
             {
                 con.Open();
-                string query = "insert into Tbl_party (PartyName,PartyContact,PartyEmail,PartyAddress,PartyLandmark,PartyPincode)";
-                query += " values('" + party.PartyName + "','" + party.PartyContact + "','" + party.PartyEmail + "','" + party.PartyAddress + "','" + party.PartyLandmark + "','" + party.PartyPincode + "')";
+                
+                string msg = "";
+               
+                    string query = "insert into Tbl_party (PartyName,PartyContact,PartyEmail,PartyAddress,PartyLandmark,PartyPincode)";
+                    query += " values('" + party.PartyName + "','" + party.PartyContact + "','" + party.PartyEmail + "','" + party.PartyAddress + "','" + party.PartyLandmark + "','" + party.PartyPincode + "')";
 
-                SqlCommand cmd = new SqlCommand(query, con);
-                string res = cmd.ExecuteNonQuery().ToString();
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    string res = cmd.ExecuteNonQuery().ToString();
 
-                if (res != "-1")
-                {
-                    return RedirectToAction("Create");
-                }
-                else
-                {
-                    return RedirectToAction("Create");
-                }
+                    if (res != "-1")
+                    {
+                        msg = "Success";
+                    }                    
+                
+                return RedirectToAction("Create", "Party", new { @msg = msg });
             }
             catch(Exception ex)
             {
@@ -69,8 +70,9 @@ namespace Restaurant.Controllers
         }
 
         // GET: Party/Edit/5
-        public ActionResult Edit(int id,Mparty party)
+        public ActionResult Edit(int id,string msg,Mparty party)
         {
+            ViewBag.errormsg = msg;
             try
             {
                 con.Open();
@@ -82,7 +84,7 @@ namespace Restaurant.Controllers
                 {
                     party.PartyID = Convert.ToInt32(dr["PartyID"]);
                     party.PartyName = dr["PartyName"].ToString();
-                    party.PartyContact = Convert.ToInt32(dr["PartyContact"]);
+                    party.PartyContact = dr["PartyContact"].ToString();
                     party.PartyEmail = dr["PartyEmail"].ToString();
                     party.PartyAddress = dr["PartyAddress"].ToString();
                     party.PartyLandmark = dr["PartyLandmark"].ToString();
@@ -95,7 +97,7 @@ namespace Restaurant.Controllers
             }
             catch (Exception ex)
             {
-                string msg = ex.Message;
+                msg = ex.Message;
                 con.Close();
                 return RedirectToAction("Edit", "Party", new { id = id, @msg = msg });
             }
@@ -103,17 +105,25 @@ namespace Restaurant.Controllers
 
         // POST: Party/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Update(Mparty party)
         {
             try
             {
-                // TODO: Add update logic here
+                
+                    string query = "update Tbl_party set PartyName = '" + party.PartyName + "',PartyContact='" + party.PartyContact + "',PartyEmail='" + party.PartyEmail + "',PartyAddress='" + party.PartyAddress + "',PartyLandmark='" + party.PartyLandmark + "',PartyPincode='" + party.PartyPincode + "'  where PartyID = '" + party.PartyID + "'";
+                    con.Open();
 
-                return RedirectToAction("Index");
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.ExecuteNonQuery();
+
+                    return RedirectToAction("Index");
+                
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                string msg = ex.Message;
+                con.Close();
+                return RedirectToAction("Edit", "Party", new { id = party.PartyID, @msg = msg });
             }
         }
 

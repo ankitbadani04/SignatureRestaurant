@@ -1,0 +1,128 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Verify OTP - Signature Restaurant & Green Food</title>
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/components.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    <script src="~/Content/global_assets/js/main/jquery.min.js"></script>
+    <script src="~/Content/global_assets/js/main/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/global_assets/js/plugins/loaders/blockui.min.js"></script>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    <script src="~/Content/assets/js/app.js"></script>
+    <!-- /theme JS files -->
+</head>
+<body>
+
+    <!-- Page content -->
+    <div class="page-content login-cover" style="margin-top: 0px;">
+        <!-- Main content -->
+        <div class="content-wrapper">
+            <!-- Content area -->
+            <div class="content d-flex justify-content-center align-items-center">
+                <!-- Password recovery form -->
+                @using (Html.BeginForm("Verify", "EmployeeLogin", FormMethod.Post, new { @class = "login-form", @id = "frmtype", enctype = "multipart/form-data" }))
+                {
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="icon-mobile2 icon-2x text-warning border-warning border-3 rounded-round p-3 mb-3 mt-1"></i>
+                                <h5 class="mb-0">Verify OTP</h5>
+
+                                @if (ViewBag.ErrorMsg == "Invalid")
+                                {
+                                    <div class="alert alert-warning alert-styled-left alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                                        <span class="font-weight-semibold">OTP is Not Valid.!</span>
+                                    </div>
+                                }
+
+
+                            </div>
+                            <div class="form-group form-group-feedback form-group-feedback-right">
+                                <input type="Text" class="form-control" name="VerifyOTP" id="Contact" maxlength="4" placeholder="Enter OTP">
+                                <span id="errmsg" class="error"></span>
+                                <br />
+                                <div class="form-control-feedback">
+                                    <i class="icon-mobile2 text-muted"></i>
+                                </div>
+                                <br />
+                                <div>
+                                    <strong>We sent your code to:</strong><br />
+                                    <label>@Session["Con"]</label>
+                                </div>
+                            </div>
+
+
+                            <button type="submit" id="Verify" class="btn bg-blue btn-block"><i class="icon-spinner11 mr-2"></i> Verify </button>
+                        </div>
+                    </div>
+                }
+                <!-- /password recovery form -->
+            </div>
+            <!-- /content area -->
+
+        </div>
+        <!-- /main content -->
+    </div>
+    <!-- /page content -->
+</body>
+</html>
+
+
+<script src="~/Content/validation/jquery.validate.min.js"></script>
+<script src="~/Content/validation/additional-methods.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#frmtype").validate({
+
+            rules:
+            {
+                VerifyOTP: {
+                    required: true,
+                    minlength: 4
+                }
+            },
+            messages: {
+
+                VerifyOTP: {
+                    required: "Please Enter OTP.",
+                    minlength: "Your OTP must be at 4 Characters Long.",
+                }
+            }
+
+        });
+
+        $("#Contact").keypress(function (e) {
+
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                $("#errmsg").html("Input Only 0-9 Number").show().fadeOut("slow");
+                return false;
+            }
+        });
+
+         $("#Verify").on("click", function () {
+            if (!$("#frmtype").valid()) {
+                return false;
+            }
+        });
+    });
+
+</script>

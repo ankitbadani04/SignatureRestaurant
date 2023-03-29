@@ -11,7 +11,7 @@ namespace Restaurant.Models
     {
         public int PartyID { get; set; }
         public string PartyName { get; set; }
-        public int PartyContact { get; set; }
+        public string PartyContact { get; set; }
         public string PartyEmail { get; set; }
         public string PartyAddress { get; set; }
         public string PartyLandmark { get; set; }

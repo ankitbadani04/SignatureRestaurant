@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Ingredients - Responsive Web Application Kit by Eugene Kopyov</title>
+<title>Ingredients - Signature Restaurant & Green Food</title>
 <!-- Global stylesheets -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
 <link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
@@ -35,39 +35,64 @@
             <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Ingredients</span> - Add Ingredients</h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
-        <div class="header-elements d-none">
+        @*<div class="header-elements d-none">
             <div class="d-flex justify-content-center">
                 <a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
                 <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
                 <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
             </div>
-        </div>
+        </div>*@
     </div>
     <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
         <div class="d-flex">
             <div class="breadcrumb">
                 <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-                <a href="form_layout_vertical.html" class="breadcrumb-item">Ingredients</a>
+                <a href="@Url.Action("Create","Ingredients")" class="breadcrumb-item">Ingredient</a>
+                <span class="breadcrumb-item active">Ingredients</span>
                 <span class="breadcrumb-item active">Add Ingredients</span>
             </div>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
-        </div>        
+        </div>
     </div>
 </div>
 <!-- /page header -->
-
-
-
 <!-- Content area -->
 <div class="content">
     <!-- 2 columns form -->
     <div class="card">
         <div class="card-header header-elements-inline">
             <h5 class="card-title">Ingredients</h5>
-            @ViewBag.ErrorMsg
+            
             <div class="header-elements">
                 <a href="@Url.Action("Index","Ingredients")" class="btn bg-teal-400 btn-labeled btn-labeled-left"><b><i class="icon-list-unordered"></i></b>View List</a>
             </div>
+        </div>
+
+        <div>
+            @if (ViewBag.ErrorMsg != "")
+            {
+                if (ViewBag.ErrorMsg == "Exist")
+                {
+                    <div class="alert alert-warning alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Sorry!</span> Name Already Exists.!
+                    </div>
+                }
+                else if (ViewBag.ErrorMsg == "Success")
+                {
+                    <div class="alert alert-success alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Done!</span> Successfully Inserted.
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Warning!</span> @ViewBag.ErrorMsg
+                    </div>
+                }
+            }
         </div>
 
         <div class="card-body">
@@ -79,21 +104,22 @@
                             <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i>Add ingredients details</legend>
 
                             <div class="form-group">
-                                <label>Ingredients name:</label>
-                                @Html.TextBoxFor(M => M.IngName, new { @type = "text", @class = "form-control", @placeholder = "Enter Ingredients", @required = "required" })
+                                <label>Name:</label>
+                                @Html.TextBoxFor(M => M.IngName, new { @type = "text", @class = "form-control", @placeholder = "Enter Ingredients" })
                             </div>
 
                             <div class="form-group">
-                                <label>Ingredients Image:</label>
-                                @Html.TextBoxFor(M => M.IngImage, new { @type = "file", @class = "form-input-styled", @required = "required" })
+                                <label>Image:</label>
+                                @Html.TextBoxFor(M => M.IngImage, new { @type = "file", @class = "form-input-styled" })
+                                <span class="form-text text-muted">Accepted formats: jpg, jpeg, png . Max file size 2Mb</span>
                             </div>
-                            
+
                         </fieldset>
                     </div>
                 </div>
 
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary">Submit<i class="icon-paperplane ml-2"></i></button>
+                    <button type="submit" id="btnsave" class="btn btn-primary">Submit<i class="icon-paperplane ml-2"></i></button>
                 </div>
             }
         </div>
@@ -102,3 +128,50 @@
 
 </div>
 <!-- /content area -->
+
+<script src="~/Content/validation/jquery.validate.min.js"></script>
+<script src="~/Content/validation/additional-methods.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $.validator.addMethod('filesize', function (value, element, param) {
+            return this.optional(element) || (element.files[0].size <= param)
+        }, 'File size must be less than {2}');
+
+        $("#frmtype").validate({
+
+            rules:
+            {
+                IngName: {
+                    required: true,
+                    
+                },
+                IngImage: {
+                    required: true,
+                    extension: "jpg|png|jpeg",
+                    filesize: 2000000
+                }
+            },
+            messages: {
+                IngName: {
+                    required: "Please Enter Name.",
+                    
+                },
+                IngImage: {
+                    required: "Please Enter Image.",
+                    extension: "Please Enter a valid Image Type.",
+                    filesize: "The Image Maximum Size is 2MB."
+                }
+            }
+
+        });
+
+
+        $("#btnsave").on("click", function () {
+            if (!$("#frmtype").valid()) {
+                return false;
+            }
+        });
+    });
+
+</script>

@@ -16,10 +16,7 @@ namespace Restaurant.Controllers
 {
     public class IngredientsController : Controller
     {
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ConnectionString);
-
-        public object Ingredients { get; private set; }
-
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ConnectionString);        
         // GET: Ingredients
         public ActionResult Index()
         {
@@ -44,40 +41,47 @@ namespace Restaurant.Controllers
 
         // POST: Ingredients/Create
         [HttpPost]
-        public ActionResult Save(Mingredients ingr)
+        public ActionResult Save(Mingredients ing)
         {
             try
             {
-
-                string filename = "";
-                // string filename = Path.GetFileNameWithoutExtension(item.imageURL.FileName);
-                string FileExtension = Path.GetExtension(ingr.IngImage.FileName);
-
-                if (ingr.IngImage.FileName != "" && ingr.IngImage.FileName != null)
-                {
-                    filename = "ITEM_" + DateTime.Now.ToString("yyyyMMdd") + "_" + FileExtension;
-                }
-
-
                 con.Open();
-                string query = "insert into Tbl_ingredients (IngName,IngImage)";
-                query += " values('" + ingr.IngName + "','" + filename + "')";
-
-                SqlCommand cmd = new SqlCommand(query, con);
-                string res = cmd.ExecuteNonQuery().ToString();
-
-                if (res != "-1")
+                string msg = "";
+                SqlDataAdapter adp = new SqlDataAdapter("select * from Tbl_ingredients where IngName = '" + ing.IngName + "'", con);
+                DataTable dt = new DataTable();
+                adp.Fill(dt);
+                if (dt.Rows.Count > 0)
                 {
-                    if (ingr.IngImage.FileName != "" && ingr.IngImage.FileName != null)
-                    {
-                        ingr.IngImage.SaveAs(Server.MapPath("~/Upload/Ingredients/" + filename));
-                    }
-                    return RedirectToAction("Create");
+                    msg = "Exist";
                 }
                 else
                 {
-                    return RedirectToAction("Create");
+                    string filename = "";
+                    // string filename = Path.GetFileNameWithoutExtension(item.imageURL.FileName);
+                    string FileExtension = Path.GetExtension(ing.IngImage.FileName);
+                    if (ing.IngImage.FileName != "" && ing.IngImage.FileName != null)
+                    {
+                        filename = "INGRE_" + DateTime.Now.ToString("yyyyMMddss") + "_" + FileExtension;
+                    }
+
+
+                
+                    string query = "insert into Tbl_ingredients (IngName,IngImage)";
+                    query += " values('" + ing.IngName + "','" + filename + "')";
+
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    string res = cmd.ExecuteNonQuery().ToString();
+
+                    if (res != "-1")
+                    {
+                        msg = "Success";
+                        if (ing.IngImage.FileName != "" && ing.IngImage.FileName != null)
+                        {
+                            ing.IngImage.SaveAs(Server.MapPath("~/Upload/Ingredients/" + filename));
+                        }                        
+                    }                   
                 }
+                return RedirectToAction("Create", "Ingredients", new { @msg = msg });
             }
             catch(Exception ex)
             {
@@ -88,8 +92,9 @@ namespace Restaurant.Controllers
         }
 
         // GET: Ingredients/Edit/5
-        public ActionResult Edit(int id,Mingredients ing)
+        public ActionResult Edit(int id,string msg,Mingredients ing)
         {
+            ViewBag.errormsg = msg;
             try
             {
                 con.Open();
@@ -101,6 +106,11 @@ namespace Restaurant.Controllers
                 {
                     ing.IngID = Convert.ToInt32(dr["IngID"]);
                     ing.IngName = dr["IngName"].ToString();
+                    ing.oldimage = dr["IngImage"].ToString();
+                    if (dr["IngImage"] != null)
+                    {
+                        ViewBag.image = dr["IngImage"];
+                    }
 
                 }
 
@@ -109,7 +119,7 @@ namespace Restaurant.Controllers
             }
             catch (Exception ex)
             {
-                string msg = ex.Message;
+                msg = ex.Message;
                 con.Close();
                 return RedirectToAction("Edit", "Ingredients", new { id = id, @msg = msg });
             }
@@ -117,17 +127,50 @@ namespace Restaurant.Controllers
 
         // POST: Ingredients/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Update(Mingredients ing)
         {
             try
             {
-                // TODO: Add update logic here
+                string msg = "";
+                SqlDataAdapter adp = new SqlDataAdapter("select * from Tbl_ingredients where IngName = '" + ing.IngName + "' and IngID !='" + ing.IngID + "'", con);
+                DataTable dt = new DataTable();
+                adp.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    msg = "Exist";
+                    return RedirectToAction("Edit", "Ingredients", new { id = ing.IngID, @msg = msg });
+                }
+                else
+                {
+                    string filename = "";
+                    // string filename = Path.GetFileNameWithoutExtension(item.imageURL.FileName);
+                    if (ing.IngImage != null)
+                    {
+                        string FileExtension = Path.GetExtension(ing.IngImage.FileName);
+                        filename = "INGRE_" + DateTime.Now.ToString("yyyyMMddss") + "_" + FileExtension;
+                    }
+                    else
+                    {
+                        filename = ing.oldimage;
+                    }
 
-                return RedirectToAction("Index");
+                    string query = "update Tbl_ingredients set IngName = '" + ing.IngName + "',IngImage = '" + filename + "'  where IngID='" + ing.IngID + "'";
+                    con.Open();
+
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.ExecuteNonQuery();
+                    if (ing.IngImage != null)
+                    {
+                        ing.IngImage.SaveAs(Server.MapPath("~/Upload/Ingredients/" + filename));
+                    }
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                string msg = ex.Message;
+                con.Close();
+                return RedirectToAction("Edit", "Ingredients", new { id = ing.IngID, @msg = msg });
             }
         }
 
@@ -157,6 +200,37 @@ namespace Restaurant.Controllers
                 string msg = ex.Message;
                 return View();
             }
+        }
+
+
+        public ActionResult IngredientReport()
+        {
+            con.Open();
+            List<IngredientsReport> items = new List<IngredientsReport>();
+
+            string query = "SELECT *,(select ISNULL(sum(StockQty),0) from Tbl_stock where IngID=Tbl_Ingredients.IngID) as totalstock FROM Tbl_Ingredients";
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.CommandType = CommandType.Text;
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                IngredientsReport obj = new IngredientsReport();
+                obj.ingname = rdr["IngName"].ToString();
+                obj.totalstock = rdr["totalstock"].ToString();
+
+                items.Add(obj);
+            }
+
+            con.Close();
+            ViewBag.items = items;
+            return View();
+        }
+
+        public class IngredientsReport
+        {
+            public string ingname { get; set; }
+            public string totalstock { get; set; }
         }
     }
 }

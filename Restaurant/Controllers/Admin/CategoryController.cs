@@ -44,22 +44,32 @@ namespace Restaurant.Controllers
             try
             {
                 con.Open();
-                string query = "insert into Tbl_category (CategoryName)";
-                query += " values('" + cate.CategoryName + "')";
-
-                SqlCommand cmd = new SqlCommand(query, con);
-                string res = cmd.ExecuteNonQuery().ToString();
-
-                if (res != "-1")
+                string msg = "";
+                SqlDataAdapter adp = new SqlDataAdapter("select * from Tbl_category where CategoryName = '" + cate.CategoryName + "'", con);
+                DataTable dt = new DataTable();
+                adp.Fill(dt);
+                if (dt.Rows.Count > 0)
                 {
-                    return RedirectToAction("Create");
+                    msg = "Exist";
                 }
                 else
                 {
-                    return RedirectToAction("Create");
+
+                    string query = "insert into Tbl_category (CategoryName)";
+                    query += " values('" + cate.CategoryName + "')";
+
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    string res = cmd.ExecuteNonQuery().ToString();
+
+                    if (res != "-1")
+                    {
+                        msg = "Success";
+                    }
                 }
+                return RedirectToAction("Create", "Category", new { @msg = msg });
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string msg = ex.Message;
                 con.Close();
@@ -68,8 +78,9 @@ namespace Restaurant.Controllers
         }
 
         // GET: Category/Edit/5
-        public ActionResult Edit(int id,Mcategory Mcat)
+        public ActionResult Edit(int id,string msg,Mcategory cate)
         {
+            ViewBag.errormsg = msg;
             try
             {
                 con.Open();
@@ -79,17 +90,17 @@ namespace Restaurant.Controllers
                 SqlDataReader dr = cmd.ExecuteReader();
                 if (dr.Read())
                 {
-                    Mcat.CategoryID = Convert.ToInt32(dr["CategoryID"]);
-                    Mcat.CategoryName = dr["CategoryName"].ToString();
+                    cate.CategoryID = Convert.ToInt32(dr["CategoryID"]);
+                    cate.CategoryName = dr["CategoryName"].ToString();
                     
                 }
                 
-                return View(Mcat);
+                return View(cate);
               
             }
             catch (Exception ex)
             {
-                string msg = ex.Message;
+                msg = ex.Message;
                 con.Close();
                 return RedirectToAction("Edit", "Category", new { id=id, @msg = msg });
             }
@@ -98,17 +109,35 @@ namespace Restaurant.Controllers
 
         // POST: Category/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Update(Mcategory cate)
         {
             try
             {
-                // TODO: Add update logic here
+                string msg = "";
+                SqlDataAdapter adp = new SqlDataAdapter("select * from Tbl_category where CategoryName = '" + cate.CategoryName + "' and CategoryID !='" + cate.CategoryID + "'", con);
+                DataTable dt = new DataTable();
+                adp.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    msg = "Exist";
+                    return RedirectToAction("Edit", "Category", new { id = cate.CategoryID, @msg = msg });
+                }
+                else
+                {
+                    string query = "update Tbl_category set CategoryName = '" + cate.CategoryName + "' where CategoryID='" + cate.CategoryID + "'";
+                    con.Open();
 
-                return RedirectToAction("Index");
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.ExecuteNonQuery();
+
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                string msg = ex.Message;
+                con.Close();
+                return RedirectToAction("Edit", "Category", new { id = cate.CategoryID, @msg = msg });
             }
         }
 

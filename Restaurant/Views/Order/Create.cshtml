@@ -1,0 +1,287 @@
+﻿@using Restaurant.Models
+@model Morder
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Order - Signature Restaurant & Green Food</title>
+<!-- Global stylesheets -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+<link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/components.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+<!-- /global stylesheets -->
+<!-- Core JS files -->
+<script src="~/Content/global_assets/js/main/jquery.min.js"></script>
+<script src="~/Content/global_assets/js/main/bootstrap.bundle.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/loaders/blockui.min.js"></script>
+<!-- /core JS files -->
+<!-- Theme JS files page layout -->
+<script src="~/Content/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script src="~/Content/assets/js/app.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/form_layouts.js"></script>
+<!-- /theme JS files layout -->
+<!-- Theme JS files Redio button-->
+<script src="~/Content/global_assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/forms/styling/switchery.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/forms/styling/switch.min.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/form_checkboxes_radios.js"></script>
+<!-- /theme JS files Redio button -->
+<!-- Theme JS files dropdown-->
+<script src="~/Content/global_assets/js/plugins/extensions/jquery_ui/interactions.min.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/form_select2.js"></script>
+<!-- /theme JS files -->
+<!-- Page header -->
+<div class="page-header page-header-light">
+    <div class="page-header-content header-elements-md-inline">
+        <div class="page-title d-flex">
+            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Order</span> - Add Order</h4>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+        @*<div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
+                </div>
+            </div>*@
+    </div>
+    <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+        <div class="d-flex">
+            <div class="breadcrumb">
+                <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+                <a href="@Url.Action("Create","Order")" class="breadcrumb-item">Order</a>
+                <span class="breadcrumb-item active">Orders</span>
+                <span class="breadcrumb-item active">Add Order</span>
+            </div>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+    </div>
+</div>
+<!-- /page header -->
+<!-- Content area -->
+<div class="content">
+
+    <!-- 2 columns form -->
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            <h5 class="card-title">Order</h5>
+
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a href="@Url.Action("Index","Order")" class="btn bg-teal-400 btn-labeled btn-labeled-left"><b><i class="icon-list-unordered"></i></b>View List</a>
+                </div>
+            </div>
+        </div>
+        <div>
+            @if (ViewBag.ErrorMsg != "")
+            {
+                if (ViewBag.ErrorMsg == "Success")
+                {
+                    <div class="alert alert-success alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Done!</span> Successfully Inserted.
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Warning!</span> @ViewBag.ErrorMsg
+                    </div>
+                }
+            }
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Save", "Order", FormMethod.Post, new { @class = "flex-fill", @id = "frmtype", enctype = "multipart/form-data" }))
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <fieldset>
+                            <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Add order details</legend>
+
+                            <div class="form-group">
+                                <label>Table:</label>
+                                @Html.DropDownListFor(M => M.TableID, ViewBag.TableList as SelectList,"", new { @class = "form-control form-control-select2",@data_placeholder="- Select Table -"  })
+                            </div>
+
+                            <div class="form-group">
+                                <label>Person:</label>
+                                @Html.TextBoxFor(M => M.NoPerson, new { @type = "text", @class = "form-control", @placeholder = "Enter no of person", @required = "required" })
+                            </div>
+
+                            @*<div class="form-group">
+                                    <label>Date:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-calendar3"></i></span>
+                                        </span>
+                                        @Html.TextBoxFor(M => M.OrderDate, new { @type = "text", @class = "form-control", @id = "anytime-month-numeric", @placeholder = "Order Date", @required = "required" })
+                                    </div>
+                                </div>*@
+
+                            <div class="form-group">
+                                <label>Status:</label>
+                                @Html.DropDownList("OrderStatus", new List<SelectListItem>
+                                {
+                                    new SelectListItem{ Text="New", Value = "New" },
+                                    new SelectListItem{ Text="Preparing", Value = "Preparing" },
+                                    new SelectListItem{ Text="Delivered", Value = "Delivered" },
+                                    new SelectListItem{ Text="Complete", Value = "Complete" },
+                                }, new { @class = "form-control select" })
+                            </div>
+
+                            <div class="form-group">
+                                <label>Discount:</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text">%</span>
+                                    </span>
+                                    @Html.TextBoxFor(M => M.OrderDiscount, new { @type = "text", @class = "form-control", @placeholder = "Enter Discount", @required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Total Amount:</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text">0.00</span>
+                                    </span>
+                                    @Html.TextBoxFor(M => M.OrderTotalBill, new { @type = "text", @class = "form-control", @placeholder = "Enter Total Amount", @required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Contact:</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-phone-plus2"></i></span>
+                                    </span>
+                                    @Html.TextBoxFor(M => M.CustContact, new { @type = "text",@id="Contact", @class = "form-control", @placeholder = "Enter contact number", @required = "required", @maxlength = "10" })
+                                    <span id="errmsg" class="error"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>User:</label>
+                                @Html.DropDownListFor(M => M.UserID, ViewBag.RegList as SelectList,"", new { @class = "form-control select",@data_placeholder="- Select User -"  })
+                            </div>
+
+                            <div class="form-group">
+                                <label class="d-block">Order Type:</label>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        @Html.RadioButtonFor(M => M.OrderType, "In Restaurant", new { @class = "form-check-input-styled", @name = "radio-inline-left", @checked = "checked" })
+                                        In Restaurant
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        @Html.RadioButtonFor(M => M.OrderType, "Parcel", new { @class = "form-check-input-styled", @name = "radio-inline-left" })
+                                        Parcel
+                                    </label>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <button type="submit" id="btnsave" class="btn btn-primary">Submit<i class="icon-paperplane ml-2"></i></button>
+                </div>
+            }
+        </div>
+    </div>
+    <!-- /2 columns form -->
+
+</div>
+<!-- /content area -->
+
+<script src="~/Content/validation/jquery.validate.min.js"></script>
+<script src="~/Content/validation/additional-methods.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#frmtype").validate({
+
+            rules:
+            {
+                TableID: "required",
+                NoPerson: {
+                    required: true,
+                    number: true
+                },
+                OrderStatus: "required",
+                OrderDiscount: {
+                    required: true,
+                    number: true,
+                    maxlength : 3
+                },
+                OrderTotalBill: {
+                    required: true,
+                    number: true
+                },
+                CustContact: {
+                    required: true,                    
+                    minlength: 10
+                },
+
+                UserID: "required",
+                OrderType: "required"
+
+            },
+            messages: {
+                TableID: "Please Enter Table.",
+                NoPerson: {
+                    required: "Please Enter No of person.",
+                    number: "Please Enter a Valid No of person. "
+                },
+                OrderDate: {
+                    required: "Please Enter Date.",
+                    Date: "Please Enter Valid Date."
+                },
+                OrderDiscount: {
+                    required: "Please Enter Discount.",
+                    number: "Please Enter a Valid Discount.",
+                    maxlength : "Please Enter Less Then 3 Charactor.",
+                },
+                OrderTotalBill: {
+                    required: "Please Enter Amount.",
+                    number: "Please Enter a Valid Amount."
+                },
+                CustContact: {
+                    required: "Please Enter Contact Number.",
+                    number: "Please Enter a Valid Contact Number.",
+                    minlength: "Your Contact must be at 10 Characters Long.",
+                    maxlength: "Please Enter no more than 10 Characters."
+                },
+                UserID: "Please Enter User.",
+                OrderType: "Please Enter Order Type."
+            }
+
+        });
+
+        $("#Contact").keypress(function (e) {
+     
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                $("#errmsg").html("Input Only 0-9 Number").show().fadeOut("slow");
+                return false;
+            }
+        });
+
+        $("#btnsave").on("click", function () {
+            if (!$("#frmtype").valid()) {
+                return false;
+            }
+        });
+    });
+
+</script>

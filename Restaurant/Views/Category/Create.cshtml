@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Category - Responsive Web Application Kit by Eugene Kopyov</title>
+<title>Category - Signature Restaurant & Green Food</title>
 <!-- Global stylesheets -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
 <link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
@@ -30,6 +30,7 @@
 <script src="~/Content/assets/js/app.js"></script>
 <script src="~/Content/global_assets/js/demo_pages/form_layouts.js"></script>
 <!-- /theme JS files -->
+
 <!-- Page header -->
 <div class="page-header page-header-light">
     <div class="page-header-content header-elements-md-inline">
@@ -37,19 +38,20 @@
             <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Category</span> - Add Category</h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
-        <div class="header-elements d-none">
+        @*<div class="header-elements d-none">
             <div class="d-flex justify-content-center">
                 <a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
                 <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
                 <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
             </div>
-        </div>
+        </div>*@
     </div>
     <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
         <div class="d-flex">
             <div class="breadcrumb">
                 <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-                <a href="form_layout_vertical.html" class="breadcrumb-item">Category</a>
+                <a href="@Url.Action("Create","Category")" class="breadcrumb-item">Item</a>
+                <span class="breadcrumb-item active">Category</span>
                 <span class="breadcrumb-item active">Add Category</span>
             </div>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
@@ -63,13 +65,40 @@
     <!-- 2 columns form -->
     <div class="card">
         <div class="card-header header-elements-inline">
-            <h5 class="card-title">Item Category</h5>
-            @ViewBag.ErrorMsg
+            <h5 class="card-title">Category</h5>
+
             <div class="header-elements">
                 <div class="list-icons">
                     <a href="@Url.Action("Index","Category")" class="btn bg-teal-400 btn-labeled btn-labeled-left"><b><i class="icon-list-unordered"></i></b>View List</a>
                 </div>
             </div>
+        </div>
+
+        <div>
+            @if (ViewBag.ErrorMsg != "")
+            {
+                if (ViewBag.ErrorMsg == "Exist")
+                {
+                    <div class="alert alert-warning alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Sorry!</span> Name Already Exists.!
+                    </div>
+                }
+                else if (ViewBag.ErrorMsg == "Success")
+                {
+                    <div class="alert alert-success alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Done!</span> Successfully Inserted.
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Warning!</span> @ViewBag.ErrorMsg
+                    </div>
+                }
+            }
         </div>
 
         <div class="card-body">
@@ -80,15 +109,15 @@
                         <fieldset>
                             <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Add category details</legend>
                             <div class="form-group">
-                                <label>Item Category:</label>
-                                @Html.TextBoxFor(M => M.CategoryName, new { @type = "text", @class = "form-control", @placeholder = "Item Category", @required = "required" })
+                                <label>Category:</label>
+                                @Html.TextBoxFor(M => M.CategoryName, new { @type = "text", @class = "form-control", @placeholder = "Enter Category", @required = "required" })
                             </div>
                         </fieldset>
                     </div>
                 </div>
 
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary">Submit<i class="icon-paperplane ml-2"></i></button>
+                    <button type="submit" id="btnsave" class="btn btn-primary">Submit<i class="icon-paperplane ml-2"></i></button>
                 </div>
             }
         </div>
@@ -97,3 +126,32 @@
 
 </div>
 <!-- /content area -->
+
+<script src="~/Content/validation/jquery.validate.min.js"></script>
+<script src="~/Content/validation/additional-methods.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#frmtype").validate({
+
+            rules:
+            {
+                CategoryName: "required",
+            },
+            messages:
+            {
+
+                CategoryName: "Please Enter Category.",
+            }
+
+        });
+
+
+        $("#btnsave").on("click", function () {
+            if (!$("#frmtype").valid()) {
+                return false;
+            }
+        });
+    });
+
+</script>

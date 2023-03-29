@@ -1,0 +1,528 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<meta charset="utf-8">
+@*<meta http-equiv="refresh" content="30" />*@
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Dashboard - Signature Restaurant & Green Food</title>
+
+<!-- Global stylesheets -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+<link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/global_assets/css/icons/fontawesome/styles.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/global_assets/css/icons/material/styles.min.css" rel="stylesheet" type="text/css">
+
+<link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/components.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+<!-- /global stylesheets -->
+<!-- Core JS files -->
+<script src="~/Content/global_assets/js/main/jquery.min.js"></script>
+<script src="~/Content/global_assets/js/main/bootstrap.bundle.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/loaders/blockui.min.js"></script>
+<!-- /core JS files -->
+<!-- Theme JS files -->
+<script src="~/Content/global_assets/js/plugins/visualization/d3/d3.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
+<script src="~/Content/global_assets/js/plugins/forms/styling/switchery.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+<script src="~/Content/global_assets/js/plugins/ui/moment/moment.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/pickers/daterangepicker.js"></script>
+<script src="~/Content/assets/js/app.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/dashboard.js"></script>
+<!-- /theme JS files -->
+<!-- JS files pie chart -->
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<!-- /JS files pie chart -->
+<!-- Item Report-->
+<script>
+var GooglePieRotate = function() {
+
+    // Setup module components
+
+    // Rotated pie
+    var _googlePieRotate = function() {
+        if (typeof google == 'undefined') {
+            console.warn('Warning - Google Charts library is not loaded.');
+            return;
+        }
+
+        // Initialize chart
+        google.charts.load('current', {
+            callback: function () {
+
+                // Draw chart
+                drawPieRotated();
+
+                // Resize on sidebar width change
+                $(document).on('click', '.sidebar-control', drawPieRotated);
+
+                // Resize on window resize
+                var resizePieRotate;
+                $(window).on('resize', function() {
+                    clearTimeout(resizePieRotate);
+                    resizePieRotate = setTimeout(function () {
+                        drawPieRotated();
+                    }, 200);
+                });
+            },
+            packages: ['corechart']
+        });
+
+        // Chart settings
+        function drawPieRotated() {
+
+            // Define charts element
+            var pie_rotate_element = document.getElementById('google-pie-rotate');
+
+            // Data
+            var data = google.visualization.arrayToDataTable([
+                ['items','total'],
+                @foreach (var row in ViewBag.items)
+                 {
+                    @:[ '@row.catname' , @row.totalitems],
+                 }
+
+            ]);
+
+            // Options
+            var options_pie_rotate = {
+                fontName: 'Roboto',
+                pieStartAngle: 180,
+                height: 300,
+                width: 500,
+                chartArea: {
+                    left: 50,
+                    width: '90%',
+                    height: '90%'
+                }
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var pie_rotate = new google.visualization.PieChart(pie_rotate_element);
+            pie_rotate.draw(data, options_pie_rotate);
+        }
+    };
+
+
+    // Return objects assigned to module
+
+    return {
+        init: function() {
+            _googlePieRotate();
+        }
+    }
+}();
+
+// Initialize module
+GooglePieRotate.init();
+</script>
+<!-- /Item Report-->
+
+<!-- Ingredients Reports -->
+<script>
+var GooglePieRotate = function() {
+    // Setup module components
+
+    // Rotated pie
+    var _googlePieRotate = function() {
+        if (typeof google == 'undefined') {
+            console.warn('Warning - Google Charts library is not loaded.');
+            return;
+        }
+
+        // Initialize chart
+        google.charts.load('current', {
+            callback: function () {
+
+                // Draw chart
+                drawPieRotated();
+
+                // Resize on sidebar width change
+                $(document).on('click', '.sidebar-control', drawPieRotated);
+
+                // Resize on window resize
+                var resizePieRotate;
+                $(window).on('resize', function() {
+                    clearTimeout(resizePieRotate);
+                    resizePieRotate = setTimeout(function () {
+                        drawPieRotated();
+                    }, 200);
+                });
+            },
+            packages: ['corechart']
+        });
+
+        // Chart settings
+        function drawPieRotated() {
+
+            // Define charts element
+            var pie_rotate_element = document.getElementById('google-pie-rotates');
+
+            // Data
+            var data = google.visualization.arrayToDataTable([
+
+
+                 ['ingitems','total'],
+                @foreach (var row in ViewBag.ingitems)
+                 {
+                    @:[ '@row.ingname' , @row.totalstock],
+                 }
+
+            ]);
+
+            // Options
+            var options_pie_rotate = {
+                fontName: 'Roboto',
+                pieStartAngle: 180,
+                height: 300,
+                width: 500,
+                chartArea: {
+                    left: 50,
+                    width: '90%',
+                    height: '90%'
+                }
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var pie_rotate = new google.visualization.PieChart(pie_rotate_element);
+            pie_rotate.draw(data, options_pie_rotate);
+        }
+    };
+
+    // Return objects assigned to module
+
+    return {
+        init: function() {
+            _googlePieRotate();
+        }
+    }
+}();
+
+// Initialize module
+GooglePieRotate.init();
+</script>
+<!-- /Ingredients Reports -->
+
+<!-- Page header -->
+<div class="page-header page-header-light">
+    <div class="page-header-content header-elements-md-inline">
+        <div class="page-title d-flex">
+            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Home</span> - Dashboard</h4>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+
+        <div class="header-elements d-none">
+            <div class="d-flex justify-content-center">
+                @*<a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>*@
+            </div>
+        </div>
+    </div>
+
+    <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+        <div class="d-flex">
+            <div class="breadcrumb">
+                <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+                <span class="breadcrumb-item active">Dashboard</span>
+            </div>
+
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+
+
+    </div>
+</div>
+<!-- /page header -->
+<!-- Content area -->
+<div class="content">
+
+
+    <!-- Dashboard content -->
+    <!--Quick Card-->
+    <div class="row">
+        <!-- Quick stats boxes -->
+        <div class="col">
+            <!-- Total Order -->
+            <div class="card card-body bg-danger-400 has-bg-image">
+                <div class="media">
+                    <div class="media-body">
+                        <h3 class="mb-4">@ViewBag.totalorders</h3>
+                        <span class="text-uppercase font-size-xs">total orders</span>
+                    </div>
+
+                    <div class="ml-3 align-self-center">
+                        <i class="icon-bag icon-3x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- Total Order -->
+        </div>
+
+        <div class="col">
+            <!-- Total Item -->
+            <div class="card card-body bg-teal-400 has-bg-image">
+                <div class="media">
+                    <div class="media-body">
+                        <h3 class="mb-4">@ViewBag.totalitem</h3>
+                        <span class="text-uppercase font-size-xs">Total Item</span>
+                    </div>
+
+                    <div class="ml-3 align-self-center">
+                        <i class="icon-cart2 icon-3x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- Total Item -->
+        </div>
+
+        <div class="col">
+            <!-- Total Ingrediants -->
+            <div class="card card-body bg-indigo-400 has-bg-image">
+                <div class="media">
+                    <div class="mr-3 align-self-center">
+                        <i class="icon-enter6 icon-3x opacity-75"></i>
+                    </div>
+
+                    <div class="media-body text-right">
+                        <h3 class="mb-4">@ViewBag.totalIng</h3>
+                        <span class="text-uppercase font-size-xs">Total Ingrediants</span>
+                    </div>
+                </div>
+            </div>
+            <!-- /Total Ingrediants -->
+        </div>
+
+        <div class="col">
+            <!-- Today's Revenue -->
+            <div class="card card-body bg-success-400 has-bg-image">
+                <div class="media">
+                    <div class="mr-3 align-self-center">
+                        <i class="icon-wallet icon-3x opacity-75"></i>
+                    </div>
+
+                    <div class="media-body text-right">
+                        <h3 class="mb-4">&#8377; @ViewBag.totaldate</h3>
+                        <span class="text-uppercase font-size-xs">Today's Revenue</span>
+                    </div>
+                </div>
+            </div>
+            <!-- /Today's Revenue -->
+        </div>
+
+        <div class="col">
+            <!-- Total revenue -->
+            <div class="card card-body bg-blue-400 has-bg-image">
+                <div class="media">
+                    <div class="mr-3 align-self-center">
+                        <i class="icon-piggy-bank icon-3x opacity-75"></i>
+                    </div>
+
+                    <div class="media-body text-right">
+                        <h3 class="mb-4">&#8377; @ViewBag.total</h3>
+                        <span class="text-uppercase font-size-xs">Total Revenue</span>
+                    </div>
+                </div>
+            </div>
+            <!-- /Total revenue -->
+        </div>
+
+        <!-- /quick stats boxes -->
+
+    </div>
+    <!--/Quick Card-->
+
+    <div class="row">
+        <div class="col-xl-12">
+            <!-- Order -->
+            <div class="card">
+                <div class="card-header header-elements-sm-inline">
+                    <h6 class="card-title">Order</h6>
+                    <div class="header-elements">
+                        <label class="text-default font-weight-semibold">
+                            <i class="icon-calendar3 mr-2"></i> @DateTime.Now.ToString("dd/MM/yyyy")
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="card-body d-md-flex align-items-md-center justify-content-md-between flex-md-wrap">
+
+                    <div class="d-flex align-items-center mb-3 mb-md-0">
+                        <div class="btn bg-transparent border-primary text-primary rounded-round border-2 btn-icon">
+                            <i class="icon-plus22"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h5 class="font-weight-semibold mb-0">@ViewBag.statuslistn</h5>
+                            <span class="text-muted">New Order</span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="d-flex align-items-center mb-3 mb-md-0">
+                        <div class="btn bg-transparent border-warning text-warning rounded-round border-2 btn-icon">
+                            <i class="icon-spinner11"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h5 class="font-weight-semibold mb-0">@ViewBag.statuslistp</h5>
+                            <span class="text-muted">Preparing Order</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3 mb-md-0">
+                        <div class="btn bg-transparent border-success text-success rounded-round border-2 btn-icon">
+                            <i class="icon-checkmark3"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h5 class="font-weight-semibold mb-0">@ViewBag.statuslist</h5>
+                            <span class="text-muted">Complete Order</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <a href="@Url.Action("Index","Order")" class="btn bg-indigo-300"><i class="icon-list-unordered mr-1"></i> View Order</a>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Table</th>
+                                <th>On of person</th>
+                                <th>Status</th>
+                                <th>Discount</th>
+                                <th>Total Amount</th>
+                                <th class="text-center" style="width: 20px;"><i class="icon-arrow-down12"></i></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @if (Model != null && Model.Rows != null && Model.Rows.Count > 0)
+                            {
+                                foreach (System.Data.DataRow row in Model.Rows)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="mr-3">
+                                                    <a class="btn bg-transparent border-indigo-300 text-indigo-400 rounded-round border-2 btn-icon">@row["TableNumber"]</a>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                      
+                                        <td>
+                                            <span class="font-weight-semibold">@row["NoPerson"]</span>
+                                        </td>
+                                        <td>
+                                            @if (row["OrderStatus"].ToString() == "New")
+                                            {
+                                                <span class="badge badge-primary">New</span>
+                                            }
+                                            else if (row["OrderStatus"].ToString() == "Preparing")
+                                            {
+                                                <span class="badge badge-warning">Preparing</span>
+                                            }
+                                            else if (row["OrderStatus"].ToString() == "Delivered")
+                                            {
+                                                <span class="badge badge-light">Delivered</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-success">Complete</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <h6>@row["OrderDiscount"] &#37;</h6>
+                                        </td>
+                                        <td>
+                                            <h6>@row["OrderTotalBill"] &#8377;</h6>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="list-icons">
+                                                <div class="list-icons-item dropdown">
+                                                    <a href="#" class="list-icons-item dropdown-toggle caret-0" data-toggle="dropdown"><i class="icon-menu7"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a href="@Url.Action("Edit","Order",new { id= row["OrderID"]})" class="dropdown-item"><i class="icon-pencil5"></i> Update </a>
+                                                        <a href="@Url.Action("Index","OrderItem",new { id= row["OrderID"]})" class="dropdown-item"><i class="icon-eye2"></i> Item Information</a>                                                        
+                                                        <div class="dropdown-divider"></div>
+                                                        <a href="@Url.Action("Invoice","Order",new { id= row["OrderID"],disc= row["OrderDiscount"]})" class="dropdown-item"><i class="icon-file-eye"></i> Invoice</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- /Order -->
+
+            <!-- report -->            
+            <div class="row">
+                <!-- Category-Item Report -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header header-elements-inline">
+                            <h5 class="card-title">Category-Item Report</h5>
+                            <div class="header-elements">
+                                <div class="list-icons">
+                                    @*<a class="list-icons-item" data-action="collapse"></a>
+                            <a class="list-icons-item" data-action="reload"></a>
+                            <a class="list-icons-item" data-action="remove"></a>*@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="chart-container has-scroll text-center">
+                                <div class="d-inline-block" id="google-pie-rotate"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Category-Item Report -->
+                <!-- Ingredients-Stock Reports -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header header-elements-inline">
+                            <h5 class="card-title">Ingredients-Stock Reports</h5>
+                            <div class="header-elements">
+                                <div class="list-icons">
+                                    @*<a class="list-icons-item" data-action="collapse"></a>
+                            <a class="list-icons-item" data-action="reload"></a>
+                            <a class="list-icons-item" data-action="remove"></a>*@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="chart-container has-scroll text-center">
+                                <div class="d-inline-block" id="google-pie-rotates"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /Ingredients-Stock Reports -->
+            </div>            
+            <!-- /report -->         
+
+        </div>        
+    </div>
+    <!-- /dashboard content -->
+
+</div>
+<!-- /content area -->

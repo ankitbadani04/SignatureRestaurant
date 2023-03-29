@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html dir="ltr" data-config='{"style": "default"}'>
+
+<head>
+    <!-- meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="arrowthemes, bakery, cafe, ristorante theme, coffee shop, cooking, dining, food, full screen, html template, menu, pizza, responsive, restaurant, template" />
+    <meta name="description" content="Gaucho is an exquisite food & restaurant HTML template with a unique concept. Gaucho comes bundled with astounding features like page preloader, pre-built pages, full page slider and much more" />
+    <meta name="author" content="arrowthemes">
+</head>
+
+<body id="tm-container">
+
+    <!-- preloader -->
+    <div class="tm-preload">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- to top scroller -->
+    <div class="uk-sticky-placeholder">
+        <div data-uk-smooth-scroll data-uk-sticky="{top:-500}">
+            <a class="tm-totop-scroller uk-animation-slide-bottom" href="#"></a>
+        </div>
+    </div>
+
+    <!-- toolbar -->
+    <div class="tm-toolbar uk-clearfix">
+
+        <!-- toolbar left -->
+        <div class="uk-float-left">
+            <div>
+                <ul class="uk-subnav uk-subnav-line">
+                    @if (Session["Email"] == null)
+                    {
+                        <li><a href="/SignatureRestaurant/Register" target="_blank">Register</a></li>
+                        <li><a href="/SignatureRestaurant/Login">Login</a></li>
+                    }
+                    
+                </ul>
+            </div>
+
+            <div class=" uk-hidden-small">
+                
+            </div>
+        </div>
+
+        <!-- toolbar right -->
+        <div class="uk-float-right">
+
+            <div>
+                @if (Session["Email"] != null)
+                {
+                    
+                    <div class="uk-button-dropdown" data-uk-dropdown>
+                        <p style="font-size:18px;">
+                            <i class="uk-icon-user" style="margin-right:5px;"></i> 
+                            <span>@ViewBag.Name</span>
+                            <i class="uk-icon-angle-down" style="margin-left:8px;"></i>
+                        </p>                        
+                        <div class="uk-dropdown">
+                            <ul class="uk-nav uk-nav-dropdown">                                
+                                <li><a href="@Url.Action("MyProfile","SignatureRestaurant", new { id = Session["CustomerID"] })">My Profile</a></li>
+                                <li><a href="@Url.Action("Logout","SignatureRestaurant")">Logout</a></li>                                
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- menu bar -->
+    <!-- main bar -->
+    <div class="tm-navbar" data-uk-sticky>
+        <nav class="tm-navbar-container uk-flex uk-flex-space-between uk-margin-large-right">
+
+            <!-- small logo -->
+            <div class="tm-nav-logo-small">
+                <a class="tm-logo-small" href="~/SignatureRestaurant/Home">
+                    <img src="~/Content/Final-Logo/new logo font.png" style="margin-left:10px; margin-top:5px; width:250px;" alt="demo">
+                </a>
+            </div>
+
+
+
+            <div class="tm-nav uk-hidden-small">
+                <ul class="uk-navbar-nav uk-hidden-small">
+
+                    <!-- home menu -->
+                    <li class="uk-parent" data-uk-dropdown>
+                        <a href="/SignatureRestaurant/Home">Home</a>
+                    </li>
+
+                    <!-- menu menu  -->
+                    <li class="uk-parent" data-uk-dropdown>
+                        <a href="/SignatureRestaurant/Menu"><i class="uk-icon-cutlery"></i>Menu</a>
+                    </li>
+
+                    <!-- Review -->
+                    @*<li><a href="/SignatureRestaurant/Review">Review</a></li>*@
+
+                    <!-- Feedback -->
+                    <li><a href="/SignatureRestaurant/Feedback">Feedback</a></li>
+
+                    <!-- Help menu -->
+                    <li class="uk-parent" data-uk-dropdown>
+                        <a href="#" style="cursor: pointer;">Contact & About Us</a>
+                        <div class="uk-dropdown uk-dropdown-navbar uk-dropdown-width-1">
+                            <div class="uk-grid uk-dropdown-grid">
+                                <div class="uk-width-1-1">
+                                    <ul class="uk-nav uk-nav-navbar">
+                                        <li><a href="/SignatureRestaurant/ContactUs">Contact Us</a></li>
+                                        <li><a href="/SignatureRestaurant/AboutUs">About Us</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Book A Table menu -->
+                    <li>
+                        <a class="uk-button-primary uk-button-small uk-button" href="/SignatureRestaurant/BookATable">Book A Table</a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <!-- offcanvas nav icon -->
+            <a href="#offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
+
+        </nav>
+    </div>
+
+    <!-- Body -->
+    @RenderBody()
+    <!-- /Body -->
+
+    <!-- bottom-e -->
+    <div id="tm-bottom-e" class="tm-block-bottom-e uk-block uk-block-default tm-inner-shadow" data-uk-parallax="{bg: '-200'}" style="background-image: url('/Content/Customer/images/background/bg-1.jpg');">
+        <div class="uk-container uk-container-center">
+            <div class="tm-bottom-e uk-grid" data-uk-grid-match="{target:'> div > .uk-panel'}" data-uk-grid-margin>
+
+                <div class="uk-width-1-1">
+                    <div class="uk-panel uk-text-center">
+                        <img src="~/Content/Final-Logo/new logo font.png" width="330" height="130" alt="demo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="offcanvas" class="uk-offcanvas">
+        <div class="uk-offcanvas-bar uk-offcanvas-bar-flip">
+            <ul class="uk-nav uk-nav-parent-icon uk-nav-offcanvas" data-uk-nav>
+
+                <!-- Home menu -->
+                <li>
+                    <a href="/SignatureRestaurant/Home">Home</a>
+                </li>
+
+                <!-- Menu menu -->
+                <li>
+                    <a href="/SignatureRestaurant/Menu"><i class="uk-icon-cutlery"></i> Menu</a>
+                </li>
+
+                <!-- Review -->
+                <li><a href="/SignatureRestaurant/Review">Review</a></li>
+
+                <!-- Feedback -->
+                <li><a href="/SignatureRestaurant/Feedback">Feedback</a></li>
+
+
+                <!-- Help menu -->
+                <li class="uk-parent">
+                    <a href="#">Help</a>
+                    <ul class="uk-nav-sub">
+                        <li><a href="/SignatureRestaurant/ContactUs">Contact Us</a></li>
+                        <li><a href="/SignatureRestaurant/AboutUs">About Us</a></li>
+                    </ul>
+                </li>
+
+                <!-- Book A Table menu -->
+                <li>
+                    <a class="uk-button-primary uk-button-small uk-button" href="/SignatureRestaurant/BookATable">Book A Table</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

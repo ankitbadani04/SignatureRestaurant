@@ -1,0 +1,185 @@
+﻿
+@{
+    ViewBag.Title = "TableReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Table / Order Report - Signature Restaurant & Green Food</title>
+
+<!-- Global stylesheets -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+<link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/components.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+<!-- /global stylesheets -->
+<!-- Core JS files -->
+<script src="~/Content/global_assets/js/main/jquery.min.js"></script>
+<script src="~/Content/global_assets/js/main/bootstrap.bundle.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/loaders/blockui.min.js"></script>
+<!-- /core JS files -->
+<!-- Theme JS files -->
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script src="~/Content/assets/js/app.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/charts/google/pies/pie.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/charts/google/pies/pie_exploded.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/charts/google/pies/donut.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/charts/google/pies/donut_rotate.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/charts/google/pies/donut_exploded.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/charts/google/pies/pie_3d.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/charts/google/pies/3d_exploded.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/charts/google/pies/pie_diff_radius.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/charts/google/pies/pie_diff_border.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/charts/google/pies/pie_diff_opacity.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/charts/google/pies/pie_diff_invert.js"></script>
+<!-- /theme JS files -->
+
+<script>
+var GooglePieRotate = function() {
+
+    // Setup module components
+
+    // Rotated pie
+    var _googlePieRotate = function() {
+        if (typeof google == 'undefined') {
+            console.warn('Warning - Google Charts library is not loaded.');
+            return;
+        }
+
+        // Initialize chart
+        google.charts.load('current', {
+            callback: function () {
+
+                // Draw chart
+                drawPieRotated();
+
+                // Resize on sidebar width change
+                $(document).on('click', '.sidebar-control', drawPieRotated);
+
+                // Resize on window resize
+                var resizePieRotate;
+                $(window).on('resize', function() {
+                    clearTimeout(resizePieRotate);
+                    resizePieRotate = setTimeout(function () {
+                        drawPieRotated();
+                    }, 200);
+                });
+            },
+            packages: ['corechart']
+        });
+
+        // Chart settings
+        function drawPieRotated() {
+
+            // Define charts element
+            var pie_rotate_element = document.getElementById('google-pie-rotate');
+
+            // Data
+             var data = google.visualization.arrayToDataTable([
+                 ['tables','total'],
+                @foreach (var row in ViewBag.tables)
+                 {
+                    @:[ '@row.tblno'  , @row.totalorder],
+                 }
+
+            ]);
+
+            // Options
+            var options_pie_rotate = {
+              
+                fontName: 'Roboto',
+                pieStartAngle: 180,
+                height: 300,
+                width: 500,
+                chartArea: {
+                    left: 50,
+                    width: '90%',
+                    height: '90%'
+                }
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var pie_rotate = new google.visualization.PieChart(pie_rotate_element);
+            pie_rotate.draw(data, options_pie_rotate);
+        }
+    };
+
+
+    // Return objects assigned to module
+
+    return {
+        init: function() {
+            _googlePieRotate();
+        }
+    }
+}();
+
+// Initialize module
+GooglePieRotate.init();
+</script>
+
+
+<!-- Page header -->
+<div class="page-header page-header-light">
+    <div class="page-header-content header-elements-md-inline">
+        <div class="page-title d-flex">
+            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Table - Order Report</span></h4>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+
+
+    </div>
+
+    <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+        <div class="d-flex">
+            <div class="breadcrumb">
+                <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+                <a href="google_pies.html" class="breadcrumb-item">Table</a>
+                <span class="breadcrumb-item active">Table - Order Report</span>
+            </div>
+
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+
+
+    </div>
+</div>
+<!-- /page header -->
+<!-- Content area -->
+<div class="content">
+
+    <!-- Basic pie charts -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">Table / Order Report</h5>
+                    <div class="header-elements">
+                        <div class="list-icons">
+                            @*<a class="list-icons-item" data-action="collapse"></a>
+                                <a class="list-icons-item" data-action="reload"></a>
+                                <a class="list-icons-item" data-action="remove"></a>*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+
+                    <div class="chart-container has-scroll text-center">
+                        <div class="d-inline-block" id="google-pie-rotate"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /basic pie charts -->
+
+</div>
+<!-- /content area -->

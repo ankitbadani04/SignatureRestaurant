@@ -1,0 +1,1 @@
+﻿select ordi.*,ord.OrderID,ord.TableID,item.ItemName from Tbl_orderitem as ordi LEFT JOIN Tbl_order as ord ON ord.OrderID=ordi.OrderID LEFT JOIN Tbl_item as item ON item.ItemID=ordi.ItemID  order by OrderItemID desc

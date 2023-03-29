@@ -1,0 +1,23 @@
+﻿@model Restaurant.Models.Viewmodel
+
+    <tbody>
+
+
+        <tr>
+            <td>@Model["OrderID"]</td>
+            <td>@items["ItemID"]</td>
+            <td>@items["OitemQty"]</td>
+            <td>@items["OitemPrice"]</td>
+            <td>@items["OitemStatus"]</td>
+        </tr>
+
+
+
+        @*@if (Model != null && Model.orditem != null && Model.orditem.Rows.Count > 0)
+        {
+            foreach (System.Data.DataRow items in Model.orditem.Rows)
+            {
+
+            }
+         }*@
+    </tbody>

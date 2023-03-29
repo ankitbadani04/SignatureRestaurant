@@ -1,0 +1,363 @@
+﻿@using Restaurant.Models
+@model Morder
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_EmpLayout.cshtml";
+
+}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Staff Dashboard - Signature Restaurant & Green Food</title>
+<!-- Global stylesheets -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+<link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/components.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+<!-- /global stylesheets -->
+<!-- Core JS files -->
+<script src="~/Content/global_assets/js/main/jquery.min.js"></script>
+<script src="~/Content/global_assets/js/main/bootstrap.bundle.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/loaders/blockui.min.js"></script>
+<!-- /core JS files -->
+<!-- Theme JS files Card -->
+<script src="~/Content/global_assets/js/plugins/media/fancybox.min.js"></script>
+<script src="~/Content/assets/js/app.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/content_cards_content.js"></script>
+<script src="~/Content/global_assets/js/plugins/buttons/spin.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/buttons/ladda.min.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/components_buttons.js"></script>
+<!-- /theme JS files Card-->
+<!-- Theme JS files Model -->
+<script src="~/Content/global_assets/js/plugins/notifications/bootbox.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/components_modals.js"></script>
+<!-- /theme JS files Model -->
+<!-- Theme JS files responsive Table -->
+<script src="~/Content/global_assets/js/plugins/tables/footable/footable.min.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/table_responsive.js"></script>
+<!-- /theme JS files -->
+<!-- Theme JS files dropdown-->
+<script src="~/Content/global_assets/js/plugins/extensions/jquery_ui/interactions.min.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/form_select2.js"></script>
+<!-- /theme JS files -->
+<!-- Page header -->
+<div class="page-header page-header-light">
+    <div class="page-header-content header-elements-md-inline">
+        <div class="page-title d-flex">
+            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Manage Order</span></h4>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+        @*<div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
+                </div>
+            </div>*@
+    </div>
+</div>
+<!-- /page header -->
+<!-- Content area -->
+<div class="content">
+    <div>
+        <div>
+            @if (ViewBag.ErrorMsg != "")
+            {
+                if (ViewBag.ErrorMsg == "stockunavailable")
+                {
+                    <div class="alert alert-warning alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Sorry!</span> This item ingredients is not in stock..! 
+                    </div>
+                }               
+            }
+        </div>
+    </div>
+    <div class="row">
+        @if (Model != null && Model.Orderlist != null)
+        {
+            foreach (System.Data.DataRow row in Model.Orderlist.Rows)
+            {
+                <div class="col-sm-3">
+                    
+                    <!--Table card view-->
+                    <div class="card">
+                        <div class="card-header bg-white header-elements-inline" style="padding-bottom: 10px; padding-top: 10px;">
+                            <h5 class="card-title">@row["TableNumber"]</h5>
+                           
+                            <div class="header-elements">
+                                <div class="list-icons">
+                                    <button type="button" class="btn bg-teal-400  btn-sm btnadd" data-id="@row["TableID"]" data-toggle="modal" data-target="#modal_form_vertical">
+                                        Add Item
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body" style="margin:0px; padding:0px;">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Qty</th>
+                                            <th>Status</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.Orderitemlist != null && Model.Orderitemlist.Rows.Count > 0)
+                                        {
+                                            foreach (System.Data.DataRow item in Model.Orderitemlist.Rows)
+                                            {
+                                                if (item["TableID"].ToString() == row["TableID"].ToString())
+                                                {
+                                                    <tr>
+                                                        
+                                                        <td>
+                                                            @item["ItemName"]
+
+                                                        </td>
+                                                        <td>
+                                                            @item["OItemQty"]
+                                                        </td>
+                                                        <td>
+                                                            @if (item["OItemStatus"].ToString() == "New")
+                                                            {
+                                                                <span class="badge badge-primary">New</span>
+                                                            }
+                                                            else if (item["OItemStatus"].ToString() == "Preparing")
+                                                            {
+                                                                <span class="badge badge-warning">Preparing</span>
+                                                            }
+                                                            else if (item["OItemStatus"].ToString() == "Delivered")
+                                                            {
+                                                                <span class="badge badge-light">Delivered</span>
+                                                            }
+                                                            else if (item["OItemStatus"].ToString() == "Complete")
+                                                            {
+                                                                <span class="badge badge-success">Complete</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="badge bg-danger-700">Cancel</span>
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            @if (item["OItemStatus"].ToString() != "Preparing" && item["OItemStatus"].ToString() != "Complete" && item["OItemStatus"].ToString() != "Cancel")
+                                                            {
+                                                                <a href="@Url.Action("itemcancel", "EmployeeDashboard", new { id = item["OrderItemID"] })" class="text-danger"><i class="icon-cancel-circle2"></i></a>
+                                                            }
+                                                        </td>                                                       
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="card-footer bg-white d-flex justify-content-between" style="padding-bottom: 10px; padding-top: 10px;">
+                                <div>
+                                    <div class="list-icons">
+                                        @if (row["IsActive"].ToString() == "Yes")
+                                        {
+                                            <span class="badge badge-primary">Yes</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger-700">No</span>
+                                        }
+                                    </div>
+                                </div>
+
+                                <ul class="list-inline list-inline-dotted mb-0 mt-1 mt-sm-0">
+                                    <li class="list-inline-item">
+                                        <a href="#" class="btn bg-teal-400 btn-sm complete" data-id="@row["TableID"]" data-toggle="modal" data-target="#modal_form_horizontal">Complete</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Table card view-->
+                </div>
+            }
+        }
+    </div>
+</div>
+<!-- /content area -->
+<!--=================== Add Item modal ====================-->
+<div id="modal_form_vertical" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Item</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form method="post" action="/EmployeeDashboard/additem" id="frmtype">
+                <div class="modal-body">
+                    <div>
+                        <input type="hidden" id="txthfdid" name="txthfdid" />
+                        @ViewBag.stock
+                    </div>
+                    <div class="form-group">
+                        <label>Item:</label>
+                        @Html.DropDownList("ItemID", ViewBag.CategoryList as SelectList, new { @class = "form-control select" })
+                    </div>
+                    <div class="form-group">
+                        <label>Qty:</label>
+                        <input type="text" placeholder="Qty" name="Qty" id="QTYS" class="form-control">
+                        <span id="errmsg" class="error"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--=================== / Add Item modal ====================-->
+<!--=================== Complete Order ====================-->
+<div id="modal_form_horizontal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Customer Details</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="/EmployeeDashboard/Complete" id="formcomplete">
+                <div class="modal-body">
+                    <div>
+                        <input type="hidden" id="txthfdids" name="txthfdids" />
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2">Person:</label>
+                        <div class="col-sm-9">
+                            <input type="text" placeholder="No of Person" name="nop" id="nops" class="form-control">
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2">Discount:</label>
+                        <div class="col-sm-9">
+                            <input type="text" placeholder="Discount (%)" name="discount" id="dis" class="form-control">
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2">Contact:</label>
+                        <div class="col-sm-9">
+                            <input type="text" placeholder="Contact Number" name="contact" id="contact" class="form-control" maxlength="10">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--=================== Complete Order ====================-->
+
+
+<script src="~/Content/validation/jquery.validate.min.js"></script>
+<script src="~/Content/validation/additional-methods.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#frmtype").validate({
+            rules:
+            {
+                ItemID: {
+                    required: true
+                },
+                Qty: {
+                    required: true,
+                    maxlength: 3
+                }
+            },
+            messages: {
+                ItemID: {
+                    required: "Please Enter Item."
+                },
+                Qty: {
+                    required: "Please Enter Qty.",
+                    number: "Please Enter a Valid Contact Number.",
+                    maxlength: "Please Enter no more than 3 Characters."
+                }
+            }
+        });
+
+        $("#QTYS").keypress(function (e) {
+
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                $("#errmsg").html("Input Only 0-9 Number").show().fadeOut("slow");
+                return false;
+            }
+        });
+
+        $(".btnadd").on('click', function () {
+            var did = $(this).data('id');
+            $("#txthfdid").val(did);
+        });
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#formcomplete").validate({
+
+            rules:
+            {
+                nop: {
+                    required: true
+                },
+                contact: {
+                    required: true,
+                    minlength: 10
+                }
+            },
+            messages:
+            {
+                nop: {
+                    required: "Please Enter No of person.",
+                },
+                contact: {
+                    required: "Please Enter Contact Number.",
+                    minlength: "Your Contact must be at 10 Characters Long."
+
+                }
+            }
+
+        });
+
+        $("#nops,#contact,#dis").keypress(function (e) {
+
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                $("#errmsg").html("Input Only 0-9 Number").show().fadeOut("slow");
+                return false;
+            }
+        });
+
+        $(".complete").on('click', function () {
+            var did = $(this).data('id');
+            $("#txthfdids").val(did);
+        });      
+
+    });
+</script>

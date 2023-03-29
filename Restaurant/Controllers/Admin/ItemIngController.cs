@@ -19,7 +19,7 @@ namespace Restaurant.Controllers
         public ActionResult Index()
         {
             DataTable ItemIngList = new DataTable();
-            SqlDataAdapter adp = new SqlDataAdapter("select * from Tbl_iteming", con);
+            SqlDataAdapter adp = new SqlDataAdapter("select ing.*,itm.ItemName,itmi.IngName from Tbl_iteming as ing LEFT JOIN  Tbl_item as itm ON itm.ItemID=ing.ItemID LEFT JOIN  Tbl_ingredients as itmi ON itmi.IngID=ing.IngID", con);
             adp.Fill(ItemIngList);
             return View(ItemIngList);
         }
@@ -34,6 +34,44 @@ namespace Restaurant.Controllers
         public ActionResult Create(string msg = "")
         {
             ViewBag.ErrorMsg = msg;
+
+            string Text = "";
+            string Value = "";
+            con.Open();
+            SqlDataAdapter adp = new SqlDataAdapter("select * from Tbl_item", con);
+            DataTable dt = new DataTable();
+            adp.Fill(dt);
+
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                list.Add(new SelectListItem
+                {
+
+                    Text = dr["ItemName"].ToString(),
+                    Value = dr["ItemID"].ToString()
+                });
+
+            }
+            ViewBag.CategoryList = new SelectList(list, "Value", "Text");
+
+            SqlDataAdapter adp1 = new SqlDataAdapter("select * from Tbl_ingredients", con);
+            DataTable dt1 = new DataTable();
+            adp1.Fill(dt1);
+
+            List<SelectListItem> list1 = new List<SelectListItem>();
+            foreach (DataRow dr1 in dt1.Rows)
+            {
+                list1.Add(new SelectListItem
+                {
+
+                    Text = dr1["IngName"].ToString(),
+                    Value = dr1["IngID"].ToString()
+                });
+
+            }
+            ViewBag.IngList = new SelectList(list1, "Value", "Text");
+
             return View();
         }
 
@@ -44,20 +82,18 @@ namespace Restaurant.Controllers
             try
             {
                 con.Open();
-                string query = "insert into Tbl_iteming (ItemIngQty)";
-                query += " values('" + iteming.ItemIngQty + "')";
+                string msg = "";
+                string query = "insert into Tbl_iteming (ItemID,IngID,ItemIngQty)";
+                query += " values('" + iteming.ItemID + "','" + iteming.IngID + "','" + iteming.ItemIngQty + "')";
 
                 SqlCommand cmd = new SqlCommand(query, con);
                 string res = cmd.ExecuteNonQuery().ToString();
 
                 if (res != "-1")
                 {
-                    return RedirectToAction("Create");
+                    msg = "Success";
                 }
-                else
-                {
-                    return RedirectToAction("Create");
-                }
+                return RedirectToAction("Create", "ItemIng", new { @msg = msg });
             }
             catch(Exception ex)
             {
@@ -68,8 +104,9 @@ namespace Restaurant.Controllers
         }
 
         // GET: ItemIng/Edit/5
-        public ActionResult Edit(int id,Miteming iteming)
+        public ActionResult Edit(int id, string msg, Miteming iteming)
         {
+            ViewBag.errormsg = msg;
             try
             {
                 con.Open();
@@ -80,16 +117,53 @@ namespace Restaurant.Controllers
                 if (dr.Read())
                 {
                     iteming.ItemIngID = Convert.ToInt32(dr["ItemIngID"]);
+                    iteming.ItemID = Convert.ToInt32(dr["ItemID"]);
+                    iteming.IngID = Convert.ToInt32(dr["IngID"]);
                     iteming.ItemIngQty = Convert.ToInt32(dr["ItemIngQty"]);
 
                 }
+                dr.Close();
+
+                SqlDataAdapter adp = new SqlDataAdapter("select * from Tbl_item", con);
+                DataTable dt = new DataTable();
+                adp.Fill(dt);
+
+                List<SelectListItem> list = new List<SelectListItem>();
+                foreach (DataRow drs in dt.Rows)
+                {
+                    list.Add(new SelectListItem
+                    {
+
+                        Text = drs["ItemName"].ToString(),
+                        Value = drs["ItemID"].ToString()
+                    });
+
+                }
+                ViewBag.CategoryList = new SelectList(list, "Value", "Text");
+
+                SqlDataAdapter adp1 = new SqlDataAdapter("select * from Tbl_ingredients", con);
+                DataTable dt1 = new DataTable();
+                adp1.Fill(dt1);
+
+                List<SelectListItem> list1 = new List<SelectListItem>();
+                foreach (DataRow dr1 in dt1.Rows)
+                {
+                    list1.Add(new SelectListItem
+                    {
+
+                        Text = dr1["IngName"].ToString(),
+                        Value = dr1["IngID"].ToString()
+                    });
+
+                }
+                ViewBag.IngList = new SelectList(list1, "Value", "Text");
 
                 return View(iteming);
 
             }
             catch (Exception ex)
             {
-                string msg = ex.Message;
+                msg = ex.Message;
                 con.Close();
                 return RedirectToAction("Edit", "ItemIng", new { id = id, @msg = msg });
             }
@@ -97,17 +171,23 @@ namespace Restaurant.Controllers
 
         // POST: ItemIng/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Update(Miteming iteming)
         {
             try
             {
-                // TODO: Add update logic here
+                string query = "update Tbl_iteming set ItemID = '" + iteming.ItemID + "',IngID = '" + iteming.IngID + "',ItemIngQty = '" + iteming.ItemIngQty + "' where ItemIngID='" + iteming.ItemIngID + "' ";
+                con.Open();
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.ExecuteNonQuery();
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                string msg = ex.Message;
+                con.Close();
+                return RedirectToAction("Edit", "ItemIng", new { id = iteming.ItemIngID, @msg = msg });
             }
         }
 

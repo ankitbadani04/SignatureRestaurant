@@ -36,7 +36,8 @@ var ExtendedFormControls = function() {
 
         // Phone #
         $('.format-phone-number').formatter({
-            pattern: '({{999}}) {{999}} - {{9999}}'
+            pattern: '+91-{{99999}} {{99999}}'
+            //pattern: '({{999}}) {{999}} - {{9999}}'
         });
 
         // Phone ext

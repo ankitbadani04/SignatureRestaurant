@@ -1,0 +1,284 @@
+﻿@using Restaurant.Models
+@model Muser
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Register - Signature Restaurant & Green Food</title>
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/components.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    <script src="~/Content/global_assets/js/main/jquery.min.js"></script>
+    <script src="~/Content/global_assets/js/main/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/global_assets/js/plugins/loaders/blockui.min.js"></script>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    <script src="~/Content/global_assets/js/plugins/forms/styling/uniform.min.js"></script>
+    <script src="~/Content/assets/js/app.js"></script>
+    <script src="~/Content/global_assets/js/demo_pages/login.js"></script>
+    <!-- /theme JS files -->
+    <!-- Theme JS files Redio button-->
+    <script src="~/Content/global_assets/js/plugins/forms/styling/switchery.min.js"></script>
+    <script src="~/Content/global_assets/js/plugins/forms/styling/switch.min.js"></script>
+    <script src="~/Content/global_assets/js/demo_pages/form_checkboxes_radios.js"></script>
+    <!-- /theme JS files Redio button -->
+    <!-- Theme JS files dropdown-->
+    <script src="~/Content/global_assets/js/plugins/extensions/jquery_ui/interactions.min.js"></script>
+    <script src="~/Content/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+    <script src="~/Content/global_assets/js/demo_pages/form_select2.js"></script>
+    <!-- /theme JS files -->
+    
+
+</head>
+<body>
+   
+    <!-- Page content -->
+    <div class="page-content login-cover"  style="margin-top: 0px;">
+        <!-- Main content -->
+        <div class="content-wrapper">
+            <!-- Content area -->
+            <div class="content d-flex justify-content-center align-items-center">
+                <!-- Registration form -->
+
+                @using (Html.BeginForm("Save", "User", FormMethod.Post, new { @class = "flex-fill", @id = "frmtype", enctype = "multipart/form-data" }))
+                {
+                    <div class="row">
+                        <div class="col-lg-6 offset-lg-3">
+                            <div class="card mb-0">
+                                <div class="card-body">
+                                    <div class="text-center mb-3">
+                                        <i class="icon-plus3 icon-2x text-success border-success border-3 rounded-round p-3 mb-3 mt-1"></i>
+                                        <h5 class="mb-0">Create account</h5>
+                                        <span class="d-block text-muted">All fields are required</span>
+                                        @if (ViewBag.ErrorMsg != "")
+                                        {
+                                            if (ViewBag.ErrorMsg == "Exist")
+                                            {
+                                                <div class="alert alert-warning alert-styled-left alert-dismissible">
+                                                    <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                                                    <span class="font-weight-semibold">Sorry!</span> Username and Contact Already Exists.!
+                                                </div>
+                                            }
+                                            else if (ViewBag.ErrorMsg == "Success")
+                                            {
+                                                <div class="alert alert-success alert-styled-left alert-arrow-left alert-dismissible">
+                                                    <button class="close" type="button" data-dismiss="alert"><span>×</span></button>
+                                                    <span class="font-weight-semibold">Well Done!</span> You Have Successfully Registered.
+                                                </div>
+
+                                            }
+                                            else
+                                            {
+                                                <div class="alert alert-warning alert-styled-left alert-dismissible">
+                                                    <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                                                    <span class="font-weight-semibold">Warning!</span> @ViewBag.ErrorMsg
+                                                </div>
+                                            }
+
+                                        }
+                                    </div>
+
+                                    <div class="form-group form-group-feedback form-group-feedback-right">
+                                        @Html.TextBoxFor(M => M.Name, new { @type = "text", @class = "form-control", @placeholder = "Choose Name"})
+                                        <div class="form-control-feedback">
+                                            <i class="icon-user-plus text-muted"></i>
+                                        </div>
+                                    </div>
+
+
+
+                                    
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group form-group-feedback form-group-feedback-right">
+                                                @Html.TextBoxFor(M => M.Contact, new { @type = "text",@id="Contact", @class = "form-control", @placeholder = "Contact",@maxlength="10" })
+                                                <div class="form-control-feedback">
+                                                    <i class="icon-phone-plus2 text-muted"></i>
+                                                </div>
+                                                <span id="errmsg" class="error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group form-group-feedback form-group-feedback-right">
+                                                @Html.TextBoxFor(M => M.Email, new { @type = "email", @class = "form-control", @placeholder = "Your email"})
+                                                <div class="form-control-feedback">
+                                                    <i class="icon-mention text-muted"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group form-group-feedback form-group-feedback-right">
+                                                @Html.TextBoxFor(M => M.UserName, new { @type = "text", @class = "form-control", @placeholder = "Username"})
+                                                <div class="form-control-feedback">
+                                                    <i class="icon-user text-muted"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group form-group-feedback form-group-feedback-right">
+                                                @Html.TextBoxFor(M => M.Password, new { @type = "password", @class = "form-control", @placeholder = "Create password"})
+                                                <div class="form-control-feedback">
+                                                    <i class="icon-user-lock text-muted"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>User Type:</label>
+                                            @Html.DropDownList("UserType", new List<SelectListItem>
+                                            {
+
+                                                new SelectListItem{ Text="Admin", Value = "Admin" },
+                                                new SelectListItem{ Text="Staff", Value = "Staff" },
+                                                new SelectListItem{ Text="Chef", Value = "Chef" },
+                                            },"", new { @class = "form-control select",@data_placeholder="- Select User Type -"})
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3 mb-md-2">
+                                                <label class="d-block">Block:</label>
+                                                <div class="form-check form-check-inline">
+                                                    <label class="form-check-label">
+                                                        @Html.RadioButtonFor(M => M.IsBlock, "Yes", new { @class = "form-check-input-styled", @name = "radio-inline-left" })
+                                                        Yes
+                                                    </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <label class="form-check-label">
+                                                        @Html.RadioButtonFor(M => M.IsBlock, "No", new { @class = "form-check-input-styled", @name = "radio-inline-left", @checked = "checked"})
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        
+                                            <button type="submit" id="btnsave" class="btn bg-teal-400 btn-labeled btn-labeled-right"><b><i class="icon-plus3"></i></b> Create account</button>
+                                        
+                                            <a href="@Url.Action("Index","Dashboard")" class="btn btn-outline-primary border-transparent" style="float:right;">Home</a>
+                                            
+                                         
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <!-- /registration form -->
+            </div>
+            <!-- /content area -->
+        </div>
+        <!-- /main content -->
+    </div>
+    <!-- /page content -->
+</body>
+</html>
+
+<script src="~/Content/validation/jquery.validate.min.js"></script>
+<script src="~/Content/validation/additional-methods.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#frmtype").validate({
+
+            rules:
+            {
+                Name: {
+                     required: true,
+                    
+                },
+                Contact: {
+                    required: true,
+                    minlength: 10
+                },
+                Email: {
+                    required: true,
+                    email: true
+                },
+                UserName: {
+                     required: true,
+                        
+                },
+                Password: {
+                    required: true,
+                    minlength: 5
+                },
+                UserType: "required",
+                IsBlock: "required"
+            },
+            messages:
+            {
+                Name: {
+                      required: "Please Enter Name.",
+                    
+                },
+                Contact: {
+                    required: "Please Enter Contact Number.",
+                    number:"Please Enter a Valid Contact Number.",
+                    minlength: "Your Contact must be at 10 Characters Long.",
+                    maxlength:"Please Enter no more than 10 Characters."
+                },
+
+                Email: {
+                    required: "Please Enter Email Address.",
+                    email: "Please Enter a Valid Email Address."
+                },
+                UserName: {
+                      required: "Please Enter User Name.",
+                    lettersonly: "Please Enter a Valid User Name."
+                },
+                Password: {
+                    required: "Please Enter Password.",
+                    minlength: "Your Password must be at least 5 Characters Long."
+                },
+                UserType: "Please Enter a User Type."
+               
+            }
+        });
+
+        $("#Contact").keypress(function (e) {
+     
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                $("#errmsg").html("Input Only 0-9 Number").show().fadeOut("slow");
+                return false;
+            }
+        });
+
+        $("#btnsave").on("click", function () {
+            if (!$("#frmtype").valid()) {
+                return false;
+            }
+        });
+    });
+
+</script>

@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
+<title>Use Ingredients - Signature Restaurant & Green Food</title>
 <!-- Global stylesheets -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
 <link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
@@ -32,26 +32,27 @@
 <div class="page-header page-header-light">
     <div class="page-header-content header-elements-md-inline">
         <div class="page-title d-flex">
-            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Use Ingredients</span> - Add Ingredients</h4>
+            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Item Use Ingredients</span> - Add Ingredients</h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
-        <div class="header-elements d-none">
+        @*<div class="header-elements d-none">
             <div class="d-flex justify-content-center">
                 <a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
                 <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
                 <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
             </div>
-        </div>
+        </div>*@
     </div>
     <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
         <div class="d-flex">
             <div class="breadcrumb">
                 <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-                <a href="form_layout_vertical.html" class="breadcrumb-item">Item Ingredients</a>
+                <a href="@Url.Action("Create","ItemIng")" class="breadcrumb-item">Ingredient</a>
+                <span class="breadcrumb-item active">Item Use Ingredient</span>
                 <span class="breadcrumb-item active">Add Item</span>
             </div>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
-        </div>        
+        </div>
     </div>
 </div>
 <!-- /page header -->
@@ -61,13 +62,33 @@
     <!-- 2 columns form -->
     <div class="card">
         <div class="card-header header-elements-inline">
-            <h5 class="card-title">Items Ingredients</h5>
-            @ViewBag.ErrorMsg
+            <h5 class="card-title">Items Use Ingredients</h5>
+            
             <div class="header-elements">
                 <div class="list-icons">
                     <a href="@Url.Action("Index","ItemIng")" class="btn bg-teal-400 btn-labeled btn-labeled-left"><b><i class="icon-list-unordered"></i></b>View List</a>
                 </div>
             </div>
+        </div>
+
+        <div>
+            @if (ViewBag.ErrorMsg != "")
+            {                
+                if (ViewBag.ErrorMsg == "Success")
+                {
+                    <div class="alert alert-success alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Done!</span> Successfully Inserted.
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Warning!</span> @ViewBag.ErrorMsg
+                    </div>
+                }
+            }
         </div>
 
         <div class="card-body">
@@ -76,39 +97,34 @@
                 <div class="row">
                     <div class="col-md-12">
                         <fieldset>
-                            <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Add item details</legend>
-
+                            <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Add ingredients details</legend>
+                          
                             <div class="form-group">
-                                <label>Item ID</label>
-                                @Html.DropDownList("ItemID", new List<SelectListItem>
-                                {
-                                    new SelectListItem{Text="Select"},
-                                    new SelectListItem{},
-                                    new SelectListItem{},
-                                }, new { @class = "form-control" })
+                                <label>Item:</label>
+                                @Html.DropDownListFor(M => M.ItemID, ViewBag.CategoryList as SelectList,"", new { @class = "form-control form-control-select2",@data_placeholder="- Select Item -" })
                             </div>
 
                             <div class="form-group">
-                                <label>Ingredients ID</label>
-                                @Html.DropDownList("IngID", new List<SelectListItem>
-                                {
-                                    new SelectListItem{Text="Select"},
-                                    new SelectListItem{},
-                                    new SelectListItem{},
-                                }, new { @class = "form-control" })
+                                <label>Ingredients:</label>
+                                @Html.DropDownListFor(M => M.IngID, ViewBag.IngList as SelectList,"", new { @class = "form-control form-control-select2",@data_placeholder="- Select Ingredients -"   })
                             </div>
 
                             <div class="form-group">
-                                <label>Enter Quantity (GM):</label>
-                                @Html.TextBoxFor(M => M.ItemIngQty, new { @type = "text", @class = "form-control", @placeholder = "Enter Quantity (GM)", @required = "required" })
+                                <label>Quantity (In Gram):</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text">0.00</span>
+                                    </span>
+                                    @Html.TextBoxFor(M => M.ItemIngQty, new { @type = "text", @class = "form-control", @placeholder = "Enter Quantity (GM)" })
+                                </div>
                             </div>
-                                                                                   
+
                         </fieldset>
                     </div>
                 </div>
 
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary">Submit<i class="icon-paperplane ml-2"></i></button>
+                    <button type="submit" id="btnsave" class="btn btn-primary">Submit<i class="icon-paperplane ml-2"></i></button>
                 </div>
             }
         </div>
@@ -117,3 +133,41 @@
 
 </div>
 <!-- /content area -->
+
+<script src="~/Content/validation/jquery.validate.min.js"></script>
+<script src="~/Content/validation/additional-methods.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#frmtype").validate({
+
+            rules:
+            {
+                ItemID: "required",
+                IngID: "required",
+                ItemIngQty: {
+                    required: true,
+                    number:true
+                }
+                    
+            },
+            messages: {
+                ItemID: "Please Enter Item.",
+                IngID: "Please Enter Ingredients.",
+               ItemIngQty: {
+                    required: "Please Enter Quntity.",
+                    number:"Please Enter a Valid Quntity."
+                }
+            }
+
+        });
+
+
+        $("#btnsave").on("click", function () {
+            if (!$("#frmtype").valid()) {
+                return false;
+            }
+        });
+    });
+
+</script>

@@ -1,0 +1,281 @@
+﻿@using Restaurant.Models
+@model Moffer
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Offer - Signature Restaurant & Green Food</title>
+<!-- Global stylesheets -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+<link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/components.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+<!-- /global stylesheets -->
+<!-- Core JS files -->
+<script src="~/Content/global_assets/js/main/jquery.min.js"></script>
+<script src="~/Content/global_assets/js/main/bootstrap.bundle.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/loaders/blockui.min.js"></script>
+<!-- /core JS files -->
+<!-- Theme JS files -->
+<script src="~/Content/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/forms/styling/uniform.min.js"></script>
+<script src="~/Content/assets/js/app.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/form_layouts.js"></script>
+<!-- /theme JS files -->
+<!-- Theme JS files date -->
+<script src="~/Content/global_assets/js/plugins/ui/moment/moment.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/pickers/daterangepicker.js"></script>
+<script src="~/Content/global_assets/js/plugins/pickers/anytime.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/pickers/pickadate/picker.js"></script>
+<script src="~/Content/global_assets/js/plugins/pickers/pickadate/picker.date.js"></script>
+<script src="~/Content/global_assets/js/plugins/pickers/pickadate/picker.time.js"></script>
+<script src="~/Content/global_assets/js/plugins/pickers/pickadate/legacy.js"></script>
+<script src="~/Content/global_assets/js/plugins/notifications/jgrowl.min.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/picker_date.js"></script>
+<!-- /theme JS files date -->
+<!-- Page header -->
+<div class="page-header page-header-light">
+    <div class="page-header-content header-elements-md-inline">
+        <div class="page-title d-flex">
+            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Offer</span> - Edit Offer</h4>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+        @*<div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
+                </div>
+            </div>*@
+    </div>
+    <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+        <div class="d-flex">
+            <div class="breadcrumb">
+                <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+                <a href="@Url.Action("Create","Item")" class="breadcrumb-item">Utility</a>
+                <span class="breadcrumb-item active">Offer</span>
+                <span class="breadcrumb-item active">Edit Offer</span>
+            </div>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+    </div>
+</div>
+<!-- /page header -->
+<!-- Content area -->
+<div class="content">
+
+    <!-- 2 columns form -->
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            <h5 class="card-title">Offers</h5>
+
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a href="@Url.Action("Index","Offer")" class="btn bg-teal-400 btn-labeled btn-labeled-left"><b><i class="icon-list-unordered"></i></b>View List</a>
+                </div>
+            </div>
+        </div>
+        <div>
+            @if (ViewBag.ErrorMsg != null)
+            {
+                if (ViewBag.ErrorMsg == "Exist")
+                {
+                    <div class="alert alert-warning alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Sorry!</span> Name Already Exists.!
+                    </div>
+                }
+                else if (ViewBag.ErrorMsg == "Success")
+                {
+                    <div class="alert alert-success alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Done!</span> Successfully Inserted.
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Warning!</span> @ViewBag.ErrorMsg
+                    </div>
+                }
+            }
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Update", "Offer", FormMethod.Post, new { @class = "flex-fill", @id = "frmtype", enctype = "multipart/form-data" }))
+            {
+                @Html.HiddenFor(M => M.OfferID)
+                @Html.HiddenFor(M => M.oldimage)
+                <div class="row">
+                    <div class="col-md-12">
+                        <fieldset>
+                            <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Edit offer details</legend>
+
+
+
+                            <div class="form-group">
+                                <label>Name:</label>
+                                @Html.TextBoxFor(M => M.Name, new { @type = "text", @class = "form-control", @placeholder = "Enter Name" })
+                            </div>
+
+                            <div class="form-group">
+                                <label>Image:</label>
+                                @Html.TextBoxFor(M => M.Image, new { @type = "file", @class = "form-control form-input-styled" })
+                                <span class="form-text text-muted">Accepted formats: jpg, jpeg, png . Max file size 2Mb</span>
+                                @if (ViewBag.image != null)
+                                {
+                                    <img src="~/Upload/Offer/@ViewBag.image" alt="OFFER" class="img-preview rounded" style="height:70px; width:70px; margin-top:5px;">                                    
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label>Start Date:</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-calendar3"></i></span>
+                                    </span>
+                                    @Html.TextBoxFor(M => M.StartDate, new { @type = "text", @class = "form-control", @id = "rangeDemoStart", @placeholder = "Start Date" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>End Date:</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-calendar3"></i></span>
+                                    </span>
+                                    @Html.TextBoxFor(M => M.EndDate, new { @type = "text", @class = "form-control", @id = "rangeDemoFinish", @placeholder = "End Date", @readonly = "readonly" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Discount:</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text">%</span>
+                                    </span>
+                                    @Html.TextBoxFor(M => M.Discount, new { @type = "text", @class = "form-control", @placeholder = "Enter Discount", @required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Total Amount:</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text">0.00</span>
+                                    </span>
+                                    @Html.TextBoxFor(M => M.TotalAmt, new { @type = "text", @class = "form-control", @placeholder = "Enter Total Amount" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="d-block">Active:</label>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        @Html.RadioButtonFor(M => M.IsActive, "Yes", new { @class = "form-input-styled", @name = "custom-inline-radio", @id = "custom_radio_inline_unchecked", @checked = "checked" })
+                                        Yes
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        @Html.RadioButtonFor(M => M.IsActive, "No", new { @class = "form-input-styled", @name = "custom-inline-radio", @id = "custom_radio_inline_checked" })
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <button type="submit" id="btnsave" class="btn btn-primary">Submit<i class="icon-paperplane ml-2"></i></button>
+                </div>
+            }
+        </div>
+    </div>
+    <!-- /2 columns form -->
+
+</div>
+<!-- /content area -->
+
+<script src="~/Content/validation/jquery.validate.min.js"></script>
+<script src="~/Content/validation/additional-methods.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $.validator.addMethod('filesize', function (value, element, param) {
+            return this.optional(element) || (element.files[0].size <= param)
+        }, 'File size must be less than {2}');
+
+        $("#frmtype").validate({
+
+            rules:
+            {
+
+                Name: "required",
+                Image: {
+                    
+                    extension: "jpg|png|jpeg",
+                    filesize: 2000000
+                },
+                TotalAmt: {
+                    required: true,
+                    number: true
+                },
+                Discount: {
+                    required: true,
+                    number: true,
+                    maxlength : 3
+                },
+                StartDate: {
+                    required: true,
+                },
+                EndDate: {
+                    required: true,
+                }
+            },
+            messages: {
+
+                Name: "Please Enter Name.",
+                Image: {
+                    
+                    extension: "Please Enter a valid Image Type.",
+                    filesize: "The Image Maximum Size is 2MB."
+                },
+                TotalAmt: {
+                    required: "Please Enter Price.",
+                    number: "Please Enter a Valid Price."
+                },
+                Discount: {
+                    required: "Please Enter Discount.",
+                    number: "Please Enter a Valid Discount.",
+                    maxlength : "Please Enter Less Then 3 Charactor.",
+                },
+                StartDate: {
+                    required: "Please Enter Start Date.",
+                },
+                EndDate: {
+                    required: "Please Enter End Date.",
+                }
+            }
+
+        });
+
+
+        $("#btnsave").on("click", function () {
+            if (!$("#frmtype").valid()) {
+                return false;
+            }
+        });
+    });
+
+</script>
+
+

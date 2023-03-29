@@ -12,5 +12,6 @@ namespace Restaurant.Models
         public int IngID { get; set; }
         public string IngName { get; set; }
         public HttpPostedFileBase IngImage { get; set; }
+        public string oldimage { get; set; }
     }
 }

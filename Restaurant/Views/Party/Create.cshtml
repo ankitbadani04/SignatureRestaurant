@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Party - Responsive Web Application Kit by Eugene Kopyov</title>
+<title>Supplier - Signature Restaurant & Green Food</title>
 <!-- Global stylesheets -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
 <link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
@@ -32,23 +32,24 @@
 <div class="page-header page-header-light">
     <div class="page-header-content header-elements-md-inline">
         <div class="page-title d-flex">
-            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Party</span> - Add Party</h4>
+            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Supplier</span> - Add Supplier</h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
-        <div class="header-elements d-none">
-            <div class="d-flex justify-content-center">
-                <a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
-                <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
-                <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
-            </div>
-        </div>
+        @*<div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
+                </div>
+            </div>*@
     </div>
     <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
         <div class="d-flex">
             <div class="breadcrumb">
                 <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-                <a href="form_layout_vertical.html" class="breadcrumb-item">Party</a>
-                <span class="breadcrumb-item active">Add Party</span>
+                <a href="@Url.Action("Create","Party")" class="breadcrumb-item">Stock</a>
+                <span class="breadcrumb-item active">Supplier</span>
+                <span class="breadcrumb-item active">Add Supplier</span>
             </div>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
@@ -60,51 +61,82 @@
     <!-- 2 columns form -->
     <div class="card">
         <div class="card-header header-elements-inline">
-            <h5 class="card-title">Party</h5>
-            @ViewBag.ErrorMsg
+            <h5 class="card-title">Supplier</h5>
+
             <div class="header-elements">
                 <a href="@Url.Action("Index","Party")" class="btn bg-teal-400 btn-labeled btn-labeled-left"><b><i class="icon-list-unordered"></i></b>View List</a>
             </div>
         </div>
 
+        <div>
+            @if (ViewBag.ErrorMsg != "")
+            {
+                if (ViewBag.ErrorMsg == "Success")
+                {
+                    <div class="alert alert-success alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Done!</span> Successfully Inserted.
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning alert-styled-left alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                        <span class="font-weight-semibold">Warning!</span> @ViewBag.ErrorMsg
+                    </div>
+                }
+            }
+        </div>
+
         <div class="card-body">
-            @using (Html.BeginForm("Save","Party", FormMethod.Post, new { @class = "flex-fill", @id = "frmtype", enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("Save", "Party", FormMethod.Post, new { @class = "flex-fill", @id = "frmtype", enctype = "multipart/form-data" }))
             {
                 <div class="row">
                     <div class="col-md-12">
                         <fieldset>
-                            <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Add party details</legend>
+                            <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Add supplier details</legend>
 
                             <div class="form-group">
-                                <label>Party name:</label>
-                                @Html.TextBoxFor(M => M.PartyName, new { @type = "text", @class = "form-control", @placeholder = "Enter Item Name", @required = "required" })
+                                <label>Name:</label>
+                                @Html.TextBoxFor(M => M.PartyName, new { @type = "text", @class = "form-control", @placeholder = "Enter Item Name" })
                             </div>
                             <div class="form-group">
-                                <label>Contact:</label>
-                                @Html.TextBoxFor(M => M.PartyContact, new { @type = "text", @class = "form-control", @placeholder = "Enter contact number",@maxlength = "10", @required = "required" })
+                                <label>Contact:</label>     
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-phone-plus2"></i></span>
+                                      </span>
+                                      @Html.TextBoxFor(M => M.PartyContact, new { @type = "text",@id="Contact", @class = "form-control", @placeholder = "Enter contact number",@maxlength="10" })
+                                @*<span id="errmsg" class="error"></span>*@
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label>Email:</label>
-                                @Html.TextBoxFor(M => M.PartyEmail, new { @type = "text", @class = "form-control", @placeholder = "Enter EmailId", @required = "required" })
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text">@@</span>
+                                    </span>
+                                    @Html.TextBoxFor(M => M.PartyEmail, new { @type = "text", @class = "form-control", @placeholder = "Enter Email" })
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label>Address:</label>
-                                @Html.TextBoxFor(M => M.PartyAddress, new { @type = "text", @class = "form-control", @placeholder = "Enter Address", @required = "required" })
+                                @Html.TextAreaFor(M => M.PartyAddress, new { @type = "text", @class = "form-control", @placeholder = "Enter Address" })
                             </div>
                             <div class="form-group">
                                 <label>Landmark:</label>
-                                @Html.TextBoxFor(M => M.PartyLandmark, new { @type = "text", @class = "form-control", @placeholder = "Enter landmark", @required = "required" })
+                                @Html.TextBoxFor(M => M.PartyLandmark, new { @type = "text", @class = "form-control", @placeholder = "Enter landmark" })
                             </div>
                             <div class="form-group">
                                 <label>Pincode:</label>
-                                @Html.TextBoxFor(M => M.PartyPincode, new { @type = "text", @class = "form-control", @placeholder = "Enter landmark", @maxlength = "6", @required = "required" })
+                                @Html.TextBoxFor(M => M.PartyPincode, new { @type = "text",@id="pincode", @class = "form-control", @placeholder = "Enter landmark",@maxlength="6" })
                             </div>
                         </fieldset>
                     </div>
                 </div>
 
                 <div class="text-right">
-                    <button type="submit" class="btn btn-primary">Submit<i class="icon-paperplane ml-2"></i></button>
+                    <button type="submit" id="btnsave" class="btn btn-primary">Submit<i class="icon-paperplane ml-2"></i></button>
                 </div>
             }
         </div>
@@ -113,3 +145,84 @@
 
 </div>
 <!-- /content area -->
+
+
+<script src="~/Content/validation/jquery.validate.min.js"></script>
+<script src="~/Content/validation/additional-methods.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#frmtype").validate({
+
+            rules:
+            {
+                PartyName: {
+                    required: true,                    
+                },
+                PartyContact: {
+                    required: true,
+                    minlength: 10
+                    
+                },
+                PartyEmail: {
+                    required: true,
+                    email: true
+                },
+                PartyAddress: {
+                    required: true,
+                    rangelength: [2, 85]
+                },
+                PartyLandmark: {
+                    rangelength: [2, 20]
+                },
+                PartyPincode: {
+                    required: true,
+                    minlength: 6
+                }
+            },
+            messages: {
+                PartyName: {
+                    required: "Please Enter Name.",
+                    lettersonly: "Please Enter a Valid Name. "
+                },
+                PartyContact: {
+                    required: "Please Enter Contact Number.",
+                    minlength: "Your Contact must be at 10 Characters Long.",
+                    maxlength: "Please Enter no more than 10 Characters."
+                },
+                PartyEmail: {
+                    required: "Please Enter Email.",
+                    email: "Please Enter a Valid Email."
+                },
+                PartyAddress: {
+                    required: "Please Enter Address.",
+                    rangelength: "Address between 2 and 80 Characters. "
+                },
+                PartyLandmark: {
+                    rangelength: "Landmark between 2 and 20 characters. "
+                },
+                PartyPincode: {
+                    required: "Please Enter Pincode.",
+                    number: "Please Enter a Valid Pincode.",
+                    minlength: "Your Pincode must be at 6 Characters Long."
+                }
+            }
+
+        });
+
+        $("#Contact,#pincode").keypress(function (e) {
+     
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                $("#errmsg").html("Input Only 0-9 Number").show().fadeOut("slow");
+                return false;
+            }
+        });
+
+        $("#btnsave").on("click", function () {
+            if (!$("#frmtype").valid()) {
+                return false;
+            }
+        });
+    });
+
+</script>

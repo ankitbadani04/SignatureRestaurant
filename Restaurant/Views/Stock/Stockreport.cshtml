@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Restaurant.Models.IngStock>
+@{
+    ViewBag.Title = "Stockreport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Stock Report - Signature Restaurant & Green Food</title>
+<!-- Global stylesheets -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+<link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/components.min.css" rel="stylesheet" type="text/css">
+<link href="~/Content/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+<!-- /global stylesheets -->
+<!-- Core JS files -->
+<script src="~/Content/global_assets/js/main/jquery.min.js"></script>
+<script src="~/Content/global_assets/js/main/bootstrap.bundle.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/loaders/blockui.min.js"></script>
+<!-- /core JS files -->
+<!-- Theme JS files DataTable-->
+<script src="~/Content/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
+<script src="~/Content/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+<script src="~/Content/assets/js/app.js"></script>
+<script src="~/Content/global_assets/js/demo_pages/datatables_basic.js"></script>
+<!-- /theme JS files DataTable-->
+<!-- Page header -->
+<div class="page-header page-header-light">
+    <div class="page-header-content header-elements-md-inline">
+        <div class="page-title d-flex">
+            <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Stock Report</span> - Manage Stock</h4>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+        @*<div class="header-elements d-none">
+                <div class="d-flex justify-content-center">
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+                    <a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
+                </div>
+            </div>*@
+    </div>
+    <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+        <div class="d-flex">
+            <div class="breadcrumb">
+                <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+                <a href="form_layout_vertical.html" class="breadcrumb-item">Stock</a>
+                <span class="breadcrumb-item active">Stock Report</span>
+            </div>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+    </div>
+</div>
+<!-- /page header -->
+<!-- Content area -->
+<div class="content">
+    <!-- Hover rows -->
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            <h5 class="card-title">Stock Report</h5>
+            <div class="header-elements">
+                <div class="list-icons">
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <table class="table datatable-basic table-hover">
+            <thead>
+                <tr>
+                    <th>Ingredients</th>
+                    <th>Total Stock<br /> (In Gram)</th>
+                    <th>Total Ing Use <br />(In Gram)</th>
+                    <th>Available<br /> (In Gram)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        string avastock= item.avastock.ToString();
+                        <tr>
+                            <td> @Html.DisplayFor(modelItem => item.ingname)</td>
+                            <td> @Html.DisplayFor(modelItem => item.totalstock)</td>
+                            <td> @Html.DisplayFor(modelItem => item.usestock)</td>
+                            <td>
+                                <span class="badge badge-success" style="font-size:12px">
+                                    @Html.DisplayFor(modelItem => item.avastock)
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /hover rows -->
+
+</div>
+<!-- /content area -->

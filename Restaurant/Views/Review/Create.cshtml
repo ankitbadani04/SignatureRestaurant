@@ -1,0 +1,207 @@
+﻿@using Restaurant.Models
+@model Mreview
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Review - Signature Restaurant & Green Food</title>
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="~/Content/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/components.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    <script src="~/Content/global_assets/js/main/jquery.min.js"></script>
+    <script src="~/Content/global_assets/js/main/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/global_assets/js/plugins/loaders/blockui.min.js"></script>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    <script src="~/Content/global_assets/js/plugins/forms/validation/validate.min.js"></script>
+    <script src="~/Content/global_assets/js/plugins/forms/styling/uniform.min.js"></script>
+    <script src="~/Content/assets/js/app.js"></script>
+
+    @*<script src="~/Content/global_assets/js/demo_pages/login_validation.js"></script>*@
+
+
+    <!-- /theme JS files -->
+    <!-- Theme JS files Redio button-->
+    <script src="~/Content/global_assets/js/plugins/forms/styling/switchery.min.js"></script>
+    <script src="~/Content/global_assets/js/plugins/forms/styling/switch.min.js"></script>
+    <script src="~/Content/global_assets/js/demo_pages/form_checkboxes_radios.js"></script>
+    <!-- /theme JS files Redio button -->
+
+</head>
+<body>
+    <!-- Page content -->
+    <div class="page-content login-cover" style="margin-top: 0px;">
+        <!-- Main content -->
+        <div class="content-wrapper">
+            <div class="content d-flex justify-content-center align-items-center">
+
+                <!-- Vertical form options -->
+                <div class="row">
+
+
+                    <div class="col-md-12">
+                        <!-- Basic layout-->
+                        <div class="card" style="width:500px;">
+                            <div class="card-header header-elements-inline">
+                                <h5 class="card-title">Review</h5>
+
+                            </div>
+
+                            <div class="card-body">
+                                @using (Html.BeginForm("Save", "Review", FormMethod.Post, new { @class = "flex-fill", @id = "frmtype", enctype = "multipart/form-data" }))
+                                {
+                                    <div>
+                                        @Html.Hidden("txthoid", (object)ViewBag.id)
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Name:</label>
+                                        @Html.TextBoxFor(M => M.Name, new { @type = "text", @class = "form-control", @placeholder = "Enter Name" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Contact:</label>
+                                        @Html.TextBoxFor(M => M.Contact, new { @type = "text", @id = "Contact", @class = "form-control", @placeholder = "Enter Contact", @maxlength = "10" })
+                                        <span id="errmsg" class="error"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Your Review:</label>
+                                        @Html.TextAreaFor(M => M.Review, new { @type = "text", @class = "form-control", @placeholder = "Enter your message here", @rows = "4", onkeyup = "countChars(this);" })
+                                        <p id="charNum" class="text-right">100 Characters remaining</p>
+
+                                    </div>
+
+                                    <div class="form-group mb-3 mb-md-4">
+                                        <label class="d-block">Rating:</label>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                @Html.RadioButtonFor(M => M.Rating, "1", new { @class = "form-check-input-styled", @name = "radio-inline-left", @checked = "checked" })
+                                                1
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                @Html.RadioButtonFor(M => M.Rating, "2", new { @class = "form-check-input-styled", @name = "radio-inline-left" })
+                                                2
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                @Html.RadioButtonFor(M => M.Rating, "3", new { @class = "form-check-input-styled", @name = "radio-inline-left" })
+                                                3
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                @Html.RadioButtonFor(M => M.Rating, "4", new { @class = "form-check-input-styled", @name = "radio-inline-left" })
+                                                4
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                @Html.RadioButtonFor(M => M.Rating, "5", new { @class = "form-check-input-styled", @name = "radio-inline-left" })
+                                                5
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="text-right">
+                                        <a href="@Url.Action("Index", "EmployeeDashboard")" class="btn btn-link">Close</a>
+                                        <button type="submit" class="btn btn-primary review">Submit<i class="icon-paperplane ml-2"></i></button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <!-- /basic layout -->
+
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+        </div>
+        <!-- /main content -->
+    </div>
+    <!-- /page content -->
+</body>
+</html>
+
+<script src="~/Content/validation/jquery.validate.min.js"></script>
+<script src="~/Content/validation/additional-methods.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#frmtype").validate({
+
+            rules:
+            {
+                Name: {
+                    required: true,
+                },
+                Contact: {
+                    required: true,
+                    minlength: 10
+
+                },
+                Review: {
+                    required: true,                   
+                },              
+            },
+            messages: {
+                Name: {
+                    required: "Please Enter Name.",                   
+                },
+                Contact: {
+                    required: "Please Enter Contact Number.",
+                    minlength: "Your Contact must be at 10 Characters Long.",
+                    maxlength: "Please Enter no more than 10 Characters."
+                },
+                Review: {
+                    required: "Please Enter Review.",                    
+                },               
+            }
+
+        });
+
+        $("#Contact").keypress(function (e) {
+
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                $("#errmsg").html("Input Only 0-9 Number").show().fadeOut("slow");
+                return false;
+            }
+        });
+    });
+</script>
+
+<!-- review charactor length -->
+<script>
+    function countChars(obj) {
+        var maxLength = 100;
+        var strLength = obj.value.length;
+        var charRemain = (maxLength - strLength);
+
+        if (charRemain < 0) {
+            document.getElementById("charNum").innerHTML = '<span style="color: red;">You have exceeded the limit of ' + maxLength + ' characters</span>';
+        } else {
+            document.getElementById("charNum").innerHTML = charRemain + ' characters remaining';
+        }
+    }
+</script>
